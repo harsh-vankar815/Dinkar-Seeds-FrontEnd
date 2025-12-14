@@ -30,8 +30,8 @@ function App() {
             <Route path="/about" element={<About isMobile={isMobile}/>}/>
             <Route path="/contact" element={<Contact isMobile={isMobile}/>}/>
             <Route path="/products" element={<AllProducts isMobile={isMobile}/>}/>
-            <Route path="/login" element={<Login/>}/>
-            <Route path="/signup" element={<Register/>}/>
+            <Route path="/login" element={<Login  isMobile={isMobile}/>}/>
+            <Route path="/signup" element={<Register isMobile={isMobile}/>}/>
           </Routes>
         </main>
         <Footer isMobile={isMobile} />
