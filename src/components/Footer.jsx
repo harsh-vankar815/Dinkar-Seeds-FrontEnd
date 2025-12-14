@@ -2,7 +2,7 @@ const Footer = ({isMobile}) => {
   return (
     <footer className="w-full bg-white text-black border-t-2">
       {isMobile ? (
-        <div className="p-8 my-5 flex flex-col gap-8">
+        <div className="p-8 my-10 flex flex-col gap-8">
           <div className="list1">
             <h3 className="text-2xl mb-4">Quick Links</h3>
             <ul className="space-y-2 ">
