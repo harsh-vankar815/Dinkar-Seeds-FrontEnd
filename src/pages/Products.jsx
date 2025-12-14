@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const Products = () => {
+const Products = ({ isMobile }) => {
   const seedProducts = [
     { name: "Maize Seeds", image: "/img/organicsoil.png" },
     { name: "Soybean Seeds", image: "/img/humitek.png" },
@@ -44,7 +44,7 @@ const Products = () => {
 
   return (
     <section className="min-h-[60vh] relative">
-      <h1 className="font-amatic text-7xl text-center mt-16">Products</h1>
+      { isMobile ? <h1 className="font-amatic text-5xl text-center mt-16">Products</h1> : <h1 className="font-amatic text-7xl text-center mt-16">Products</h1>}
 
       {/* Arrows */}
       <button

@@ -2,14 +2,16 @@
 import { FaSeedling, FaTractor, FaUsers, FaAward } from "react-icons/fa";
 import companyImage from '/img/DinkarCompany.webp'
 
-const About = () => {
+const About = ({ isMobile }) => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       {/* Hero Section */}
       <div className="text-center mb-16">
-        <h1 className="text-9xl md:text-8xl font-bold text-green-700 mb-4 font-amatic ">
+        { isMobile ? <h1 className="text-5xl md:text-8xl font-bold text-green-700 mb-4 font-amatic ">
           About Dinkar Seeds Limited
-        </h1>
+        </h1> : <h1 className="text-9xl md:text-8xl font-bold text-green-700 mb-4 font-amatic ">
+          About Dinkar Seeds Limited
+        </h1>}
         <div className="w-24 h-1 bg-secondary mx-auto mb-6"></div>
         <p className="text-xl text-gray-600 max-w-3xl mx-auto">
           Pioneering agricultural excellence in Gujarat since 2002

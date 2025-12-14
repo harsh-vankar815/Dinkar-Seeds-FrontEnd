@@ -2,10 +2,12 @@ import { FaAward } from "react-icons/fa";
 import Products from "./Products";
 import About from "../components/About";
 import Category from "./Category";
-import Contact from './Contact'
+import Contact from "./Contact";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-const Home = () => {
+const Home = ({ isMobile }) => {
+  
 
   return (
     <main>
@@ -19,31 +21,36 @@ const Home = () => {
               Trusted Since 2002
             </span>
           </div>
-          <h1 className="text-8xl font-bold text-white drop-shadow-lg font-amatic">
-            Dinkar Seeds Pvt. Ltd.
-          </h1>
+          {isMobile ? (
+            <h1 className="text-6xl font-bold text-white drop-shadow-lg font-amatic">
+              Dinkar Seeds Pvt. Ltd.
+            </h1>
+          ) : (
+            <h1 className="text-8xl font-bold text-white drop-shadow-lg font-amatic">
+              Dinkar Seeds Pvt. Ltd.
+            </h1>
+          )}
           <p className="text-xl md:text-2xl text-green-100 max-w-2xl leading-relaxed flex-wrap">
             Dinkar Seeds Limited - Empowering farmers across Gujarat with
-            premium quality seeds for maximum yield and sustainable
-            farming.
+            premium quality seeds for maximum yield and sustainable farming.
           </p>
           <button className="mt-4 px-6 py-3 bg-green-600 text-white rounded-lg shadow-lg hover:bg-green-700 transition">
-            <Link to={'/products'}>Explore Products</Link>
+            <Link to={"/products"}>Explore Products</Link>
           </button>
         </div>
       </section>
 
       <div className="m-[50px]">
         {/* Categories Section */}
-        <Category />
+        <Category isMobile={isMobile} />
         {/* Products Section */}
-        <Products />
+        <Products isMobile={isMobile} />
 
         {/* About Section */}
-        <About />
+        <About isMobile={isMobile} />
 
         {/* Contact Section */}
-        <Contact />
+        <Contact isMobile={isMobile} />
       </div>
     </main>
   );

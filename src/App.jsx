@@ -4,12 +4,21 @@ import Footer from './components/Footer'
 import Home from './pages/Home'
 import About from "./pages/About"
 import Contact from "./pages/Contact"
-import Gallery from "./pages/Gallery"
 import Register from "./pages/Register"
 import Login from "./pages/Login"
 import AllProducts from "./components/AllProducts"
+import { useEffect, useState } from "react"
 
 function App() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setIsMobile(window.innerWidth < 768);
+  //   };
+  //   window.addEventListener("resize", handleResize);
+  //   return () => window.removeEventListener("resize", handleResize);
+  // }, []);
 
   return (
     <Router>
@@ -17,16 +26,15 @@ function App() {
         <Header />
         <main className="flex-grow">
           <Routes>
-            <Route path="/" element={<Home/>} />
-            <Route path="/about" element={<About/>}/>
-            <Route path="/gallery" element={<Gallery/>}/>
-            <Route path="/contact" element={<Contact/>}/>
-            <Route path="/products" element={<AllProducts/>}/>
+            <Route path="/" element={<Home isMobile={isMobile}/>} />
+            <Route path="/about" element={<About isMobile={isMobile}/>}/>
+            <Route path="/contact" element={<Contact isMobile={isMobile}/>}/>
+            <Route path="/products" element={<AllProducts isMobile={isMobile}/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/signup" element={<Register/>}/>
           </Routes>
         </main>
-        <Footer />
+        <Footer isMobile={isMobile} />
       </div>
     </Router>
   )

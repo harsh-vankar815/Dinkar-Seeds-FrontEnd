@@ -1,6 +1,6 @@
 import { IndianRupee } from "lucide-react";
 
-const AllProducts = () => {
+const AllProducts = ({ isMobile }) => {
   const productsList = [
     {
       productName: "Maize Seeds",
@@ -53,7 +53,11 @@ const AllProducts = () => {
   ];
   return (
     <section className="min-h-screen px-9 bg-zinc-100 py-5">
-      <h1 className="font-amatic text-8xl text-center mb-8">Products</h1>
+      {isMobile ? (
+        <h1 className="font-amatic text-5xl text-center mb-8">Products</h1>
+      ) : (
+        <h1 className="font-amatic text-8xl text-center mb-8">Products</h1>
+      )}
       <section className="flex flex-wrap justify-around gap-6 relative">
         {productsList.map((product, i) => (
           <article

@@ -1,9 +1,9 @@
 import React from 'react'
 
-const About = () => {
+const About = ({ isMobile }) => {
   return (
     <section className="min-h-[80vh]">
-      <h1 className="font-amatic text-8xl text-center mt-16">About</h1>
+      { isMobile ? <h1 className="font-amatic text-5xl text-center mt-16">About</h1> : <h1 className="font-amatic text-8xl text-center mt-16">About</h1>}
       <div className="grid place-content-center mt-8">
         <div>
           <img
