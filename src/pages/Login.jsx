@@ -224,7 +224,7 @@ const Login = ({ isMobile }) => {
                 ></path>
               </svg>
             </span>
-            { isMobile ? <p className="text-md">Sign in with google</p> : <p className="text-lg">Sign in with google</p>}
+            { isMobile ? <p className="text-sm">Sign in with google</p> : <p className="text-lg">Sign in with google</p>}
           </div>
         </form>
       )}

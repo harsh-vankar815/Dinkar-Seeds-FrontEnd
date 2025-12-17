@@ -4,7 +4,6 @@ import About from "../components/About";
 import Category from "./Category";
 import Contact from "./Contact";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
 
 const Home = ({ isMobile }) => {
   

@@ -4,14 +4,12 @@ import { FiAlignJustify } from "react-icons/fi";
 
 //  Commented code is for Hamburger navbar
 
-const Header = () => {
+const Header = ({ isMobile }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const onIsOpen = () => {
     isOpen ? setIsOpen(false) : setIsOpen(true)
   }
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  // const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 480);
   const SideNav = () => (
     <div className="w-screen rounded-md flex flex-col bg-white absolute top-[80px]">
       <ul className="w-screen text-center border border-b-2 border-b-slate-500 shadow-md" onClick={() => {setTimeout(() => setIsOpen(false), 100)}}>
@@ -31,17 +29,9 @@ const Header = () => {
     </div>
   )
   
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
   return (
-    <header className="bg-white sticky top-0 z-10">
-      <nav className="w-full h-20 flex justify-around items-center border shadow-[0_4px_6px_rgba(0,0,0,0.1)]">
+    <header className="sticky top-0 z-10 bg-white/55 backdrop-blur-md shadow-lg">
+      <nav className="w-full h-20 flex justify-around  items-center border shadow-[0_4px_6px_rgba(0,0,0,0.1)] ">
         <Link to={"/"}>
           <div className="flex items-center space-x-4 cursor-pointer">
             <img
