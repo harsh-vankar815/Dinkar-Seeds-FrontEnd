@@ -1,31 +1,27 @@
-const Category = ({ isMobile }) => {
+const Category = () => {
+
   const productTypes = [
     { name: "Wheat Seeds", image: "/img/fertilizer.png" },
     { name: "Rice Seeds", image: "/img/seedsProduct.png" },
     { name: "Maize Seeds", image: "/img/soilCondition.png" },
     { name: "Soybean Seeds", image: "/img/pestisides.png" },
   ];
+
   return (
-    <section className="min-h-[75vh]">
-      {isMobile ? (
-        <h1 className="font-amatic text-5xl text-center mt-16">
-          Agriculture Seeds, Fertilizer and Pesticide
-        </h1>
-      ) : (
-        <h1 className="font-amatic text-8xl text-center mt-16">
-          Agriculture Seeds, Fertilizer and Pesticide
-        </h1>
-      )}
-      <div className="cards flex items-center justify-around mt-8 flex-grow flex-wrap">
-        {productTypes.map((item, i) => (
-          <div key={i} className="card">
-            <figure className="text-center space-y-5 text-gray-800">
+    <section className="">
+      <h1 className="font-amatic text-5xl md:text-8xl text-center mt-16">
+        Agriculture Seeds, Fertilizer and Pesticide
+      </h1>
+      <div className="cards grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-8 flex-grow flex-wrap">
+        {productTypes.map((item) => (
+          <div key={item.name} className="card group rounded-3xl border overflow-hidden hover:shadow-xl transition">
+            <figure className="text-center p-5 space-y-5 text-gray-800">
               <img
                 src={item.image}
                 alt={item.name}
-                className="w-[21rem] h-[310px] object-cover border rounded-3xl inline-block"
+                className="w-full h-56 sm:h-64 md:h-72 object-cover border rounded-2xl transition"
               />
-              <figcaption className="font-bold text-xl">{item.name}</figcaption>
+              <figcaption className="font-bold text-lg md:text-xl">{item.name}</figcaption>
             </figure>
           </div>
         ))}
