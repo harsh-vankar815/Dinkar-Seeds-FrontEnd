@@ -7,7 +7,7 @@ import { FiAlignJustify, FiX } from "react-icons/fi";
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-   const navbarArray = [
+  const navbarArray = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
     { name: "Contact", path: "/contact" },
@@ -52,7 +52,7 @@ const Header = () => {
             <h1 className="text-xl font-bold text-green-700 ">Dinkar Seeds</h1>
           </div>
         </Link>
-        
+
         <ul className=" hidden md:flex space-x-7">
           {navbarArray.map((item) => (
             <li
@@ -75,12 +75,19 @@ const Header = () => {
           </Link>
         </div>
 
-        <button className="md:hidden text-2xl" onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <FiX/> : <FiAlignJustify
-          size={28}
-          onClick={onIsOpen}
-          className="cursor-pointer md:hidden"
-        />}
+        <button
+          className="md:hidden text-2xl"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? (
+            <FiX />
+          ) : (
+            <FiAlignJustify
+              size={28}
+              onClick={onIsOpen}
+              className="cursor-pointer md:hidden"
+            />
+          )}
         </button>
       </nav>
       {isOpen && <SideNav />}

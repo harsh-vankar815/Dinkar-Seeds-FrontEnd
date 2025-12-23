@@ -1,5 +1,4 @@
 const Footer = () => {
-  
   const footerLinks = [
     "Privace Policy",
     "Category",
@@ -35,9 +34,12 @@ const Footer = () => {
           <h3 className="text-2xl mb-4">Our Products</h3>
           <ul className="space-y-2 ">
             {productLinks.map((link) => (
-              <li key={link} className="text-black hover:text-green-600 hover:underline cursor-pointer">
+              <li
+                key={link}
+                className="text-black hover:text-green-600 hover:underline cursor-pointer"
+              >
                 {link}
-            </li>
+              </li>
             ))}
           </ul>
         </div>
