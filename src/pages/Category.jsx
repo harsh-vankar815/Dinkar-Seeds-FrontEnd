@@ -7,7 +7,7 @@ const Category = () => {
   ];
 
   return (
-    <section className="min-h-[80vh]">
+    <section className="min-h-[70vh]">
       <h1 className="font-amatic text-5xl md:text-8xl text-center mt-16">
         Agriculture Seeds, Fertilizer and Pesticide
       </h1>

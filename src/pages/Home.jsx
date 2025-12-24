@@ -5,9 +5,7 @@ import Category from "./Category";
 import Contact from "./Contact";
 import { Link } from "react-router-dom";
 
-const Home = ({ isMobile }) => {
-  
-
+const Home = () => {
   return (
     <main>
       {/* Hero Section */}
@@ -20,15 +18,9 @@ const Home = ({ isMobile }) => {
               Trusted Since 2002
             </span>
           </div>
-          {isMobile ? (
-            <h1 className="text-6xl font-bold text-white drop-shadow-lg font-amatic">
-              Dinkar Seeds Pvt. Ltd.
-            </h1>
-          ) : (
-            <h1 className="text-8xl font-bold text-white drop-shadow-lg font-amatic">
-              Dinkar Seeds Pvt. Ltd.
-            </h1>
-          )}
+          <h1 className="text-6xl md:text-8xl font-bold text-white drop-shadow-lg font-amatic">
+            Dinkar Seeds Pvt. Ltd.
+          </h1>
           <p className="text-xl md:text-2xl text-green-100 max-w-2xl leading-relaxed flex-wrap">
             Dinkar Seeds Limited - Empowering farmers across Gujarat with
             premium quality seeds for maximum yield and sustainable farming.
@@ -41,15 +33,15 @@ const Home = ({ isMobile }) => {
 
       <div className="m-[50px]">
         {/* Categories Section */}
-        <Category isMobile={isMobile} />
+        <Category />
         {/* Products Section */}
-        <Products isMobile={isMobile} />
+        <Products />
 
         {/* About Section */}
-        <About isMobile={isMobile} />
+        <About />
 
         {/* Contact Section */}
-        <Contact isMobile={isMobile} />
+        <Contact />
       </div>
     </main>
   );
