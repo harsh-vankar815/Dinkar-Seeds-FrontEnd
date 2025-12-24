@@ -130,7 +130,7 @@ const About = ({ isMobile }) => {
           Leadership Team
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-          <TeamMember name="Rajesh Patel" position="Founder & CEO" />
+          <TeamMember name="Mr. K. C. Patel" position="Founder & CEO" img_name={'kc_patel.png'} />
           <TeamMember name="Meena Sharma" position="Head of Research" />
           <TeamMember name="Vikram Singh" position="Operations Manager" />
           <TeamMember name="Priya Mehta" position="Farmer Relations" />
@@ -150,9 +150,12 @@ const ValueCard = ({ icon, title, description }) => (
 );
 
 // Team Member Component
-const TeamMember = ({ name, position }) => (
+const TeamMember = ({ name, position, img_name }) => (
   <div className="text-center">
-    <div className="bg-gray-200 border-2 border-dashed rounded-xl w-32 h-32 mx-auto mb-4" />
+    {img_name ?  <img 
+      className="bg-gray-200 border-2 border-dashed w-32 h-32 mx-auto mb-4"
+          src={`/img/${img_name}`}
+      /> : <div className="bg-gray-200 border-2 border-dashed w-32 h-32 mx-auto mb-4" />}
     <h3 className="text-xl font-bold text-gray-800">{name}</h3>
     <p className="text-green-600">{position}</p>
   </div>

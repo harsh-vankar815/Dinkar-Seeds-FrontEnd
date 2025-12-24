@@ -38,8 +38,8 @@ const Header = () => {
   );
 
   return (
-    <header className="sticky top-0 z-50 bg-white/55 backdrop-blur shadow">
-      <nav className="max-w-full mx-auto px-4 h-20 flex items-center justify-around border shadow-[0_4px_6px_rgba(0,0,0,0.1)] ">
+    <header className="sticky top-0 z-50 bg-white">
+      <nav className="max-w-full mx-auto h-20  flex items-center justify-around border shadow-[0_4px_6px_rgba(0,0,0,0.1)] ">
         <Link to={"/"}>
           <div className="flex items-center space-x-4 cursor-pointer">
             <img
@@ -63,7 +63,7 @@ const Header = () => {
             </li>
           ))}
         </ul>
-        <div className="buttons hidden sm:flex text-sm md:text-base space-x-3">
+        <div className="buttons hidden sm:flex text-sm md:text-lg space-x-3">
           <Link to={"/login"}>
             <button className="text-black hover:text-green-700">Login</button>
           </Link>
