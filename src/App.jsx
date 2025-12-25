@@ -8,9 +8,9 @@ import Register from "./pages/Register"
 import Login from "./pages/Login"
 import AllProducts from "./components/AllProducts"
 import { useEffect, useState } from "react"
+import Gallery from "./pages/Gallery"
 
 function App() {
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
     const handleResize = () => {
@@ -34,18 +34,19 @@ function App() {
     <Router>
       <ScrollToTop/>
       <div className="flex flex-col min-h-screen">
-        <Header isMobile={isMobile} />
+        <Header />
         <main className="flex-grow">
           <Routes>
-            <Route path="/" element={<Home isMobile={isMobile}/>} />
-            <Route path="/about" element={<About isMobile={isMobile}/>}/>
-            <Route path="/contact" element={<Contact isMobile={isMobile}/>}/>
-            <Route path="/products" element={<AllProducts isMobile={isMobile}/>}/>
-            <Route path="/login" element={<Login  isMobile={isMobile}/>}/>
-            <Route path="/signup" element={<Register isMobile={isMobile}/>}/>
+            <Route path="/" element={<Home/>} />
+            <Route path="/about" element={<About/>}/>
+            <Route path="/contact" element={<Contact/>}/>
+            <Route path="/products" element={<AllProducts/>}/>
+            <Route path="/login" element={<Login />}/>
+            <Route path="/signup" element={<Register/>}/>
+            <Route path="/gallery" element={<Gallery/>} />
           </Routes>
         </main>
-        <Footer isMobile={isMobile} />
+        <Footer />
       </div>
     </Router>
   )

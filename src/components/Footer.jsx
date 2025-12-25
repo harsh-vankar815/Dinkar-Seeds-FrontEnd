@@ -1,3 +1,5 @@
+import { HiHeart } from "react-icons/hi";
+
 const Footer = () => {
   const footerLinks = [
     "Privace Policy",
@@ -54,11 +56,16 @@ const Footer = () => {
           </address>
         </div>
       </div>
-      <div className="border-t-2 mt-4 pb-8 pt-8 text-center text-black">
+      <div className="flex flex-col gap-1 border-t-2 mt-4 pb-8 pt-8 text-center text-black">
         <p>
           &copy; {new Date().getFullYear()} Dinkar Seeds Limited. All rights
           reserved.
         </p>
+        <div className="flex items-center justify-center text-sm text-secondary-500 dark:text-secondary-500">
+          <span>Made with</span>
+          <HiHeart className="w-4 h-4 text-red-500 mx-1" />
+          <span>by HARSH VANKAR</span>
+        </div>
       </div>
     </footer>
   );

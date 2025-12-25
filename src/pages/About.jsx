@@ -1,17 +1,15 @@
 // src/pages/About.jsx
 import { FaSeedling, FaTractor, FaUsers, FaAward } from "react-icons/fa";
-import companyImage from '/img/DinkarCompany.webp'
+import companyImage from "/img/DinkarCompany.webp";
 
-const About = ({ isMobile }) => {
+const About = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       {/* Hero Section */}
       <div className="text-center mb-16">
-        { isMobile ? <h1 className="text-5xl md:text-8xl font-bold text-green-700 mb-4 font-amatic ">
+        <h1 className="text-5xl md:text-9xl font-bold text-green-700 mb-4 font-amatic ">
           About Dinkar Seeds Limited
-        </h1> : <h1 className="text-9xl md:text-8xl font-bold text-green-700 mb-4 font-amatic ">
-          About Dinkar Seeds Limited
-        </h1>}
+        </h1>
         <div className="w-24 h-1 bg-secondary mx-auto mb-6"></div>
         <p className="text-xl text-gray-600 max-w-3xl mx-auto">
           Pioneering agricultural excellence in Gujarat since 2002
@@ -130,7 +128,11 @@ const About = ({ isMobile }) => {
           Leadership Team
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-          <TeamMember name="Mr. K. C. Patel" position="Founder & CEO" img_name={'kc_patel.png'} />
+          <TeamMember
+            name="Mr. K. C. Patel"
+            position="Founder & CEO"
+            img_name={"kc_patel.png"}
+          />
           <TeamMember name="Meena Sharma" position="Head of Research" />
           <TeamMember name="Vikram Singh" position="Operations Manager" />
           <TeamMember name="Priya Mehta" position="Farmer Relations" />
@@ -152,10 +154,14 @@ const ValueCard = ({ icon, title, description }) => (
 // Team Member Component
 const TeamMember = ({ name, position, img_name }) => (
   <div className="text-center">
-    {img_name ?  <img 
-      className="bg-gray-200 border-2 border-dashed w-32 h-32 mx-auto mb-4"
-          src={`/img/${img_name}`}
-      /> : <div className="bg-gray-200 border-2 border-dashed w-32 h-32 mx-auto mb-4" />}
+    {img_name ? (
+      <img
+        className="bg-gray-200 border-2 border-dashed w-32 h-32 mx-auto mb-4"
+        src={`/img/${img_name}`}
+      />
+    ) : (
+      <div className="bg-gray-200 border-2 border-dashed w-32 h-32 mx-auto mb-4" />
+    )}
     <h3 className="text-xl font-bold text-gray-800">{name}</h3>
     <p className="text-green-600">{position}</p>
   </div>
