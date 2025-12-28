@@ -69,7 +69,7 @@ const Header = () => {
         <Link to={"/"}>
           <div className="flex items-center gap-2 cursor-pointer">
             <img
-              src="img/favicon.png"
+              src="img/favicon.ico"
               width={"60"}
               height={"60"}
               alt="Dinkar Seeds"

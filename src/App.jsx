@@ -14,6 +14,7 @@ import Login from "./pages/Login";
 import AllProducts from "./components/AllProducts";
 import { useEffect } from "react";
 import Gallery from "./pages/Gallery";
+import SingleProduct from "./components/SingleProduct";
 
 function App() {
   function ScrollToTop() {
@@ -37,6 +38,8 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/products" element={<AllProducts />} />
+            <Route path="/product/:id" element={<SingleProduct />} />
+            <Route path="/prod" element={<SingleProduct />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Register />} />
             <Route path="/gallery" element={<Gallery />} />
