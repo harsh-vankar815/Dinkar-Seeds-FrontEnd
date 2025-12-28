@@ -133,7 +133,7 @@ const SingleProduct = () => {
             <button
               //   onClick={() => navigate("/checkout")}
               onClick={() => alert(`Buying ${product.productName}`)}
-              className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition"
+              className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 mt-5 rounded-lg font-semibold transition"
             >
               Buy Now
             </button>
