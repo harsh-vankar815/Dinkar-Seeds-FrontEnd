@@ -132,6 +132,7 @@ const SingleProduct = () => {
           <div className="flex gap-4 mb-6">
             <button
               //   onClick={() => navigate("/checkout")}
+              onClick={() => alert(`Buying ${product.productName}`)}
               className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition"
             >
               Buy Now
