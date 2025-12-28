@@ -23,7 +23,7 @@ body {
 }
 
 .font-amatic {
-  font-family: "Amatic SC", cursive;
+  font-family: "Amatic SC", 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .no-scrollbar::-webkit-scrollbar {
