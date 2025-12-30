@@ -25,7 +25,7 @@ const Contact = () => {
 
   return (
     <>
-      <section className="flex justify-center items-center flex-col mb-11 ">
+      <section className="flex justify-center items-center flex-col mb-11">
         <h1 className="font-amatic text-5xl md:text-8xl text-center mt-16">
           Contact
         </h1>
@@ -42,7 +42,7 @@ const Contact = () => {
               <input
                 onChange={(e) => setFullName(e.target.value)}
                 value={fullName}
-                className="text-xl p-3 my-4 md:m-4 border border-slate-300 rounded-lg "
+                className="text-lg md:text-xl p-3 my-3 md:m-4 border border-slate-300 rounded-lg "
                 type="text"
                 name="fullname"
                 id="fullname"
@@ -52,7 +52,7 @@ const Contact = () => {
               <input
                 onChange={(e) => setMobileNo(e.target.value)}
                 value={mobileNo}
-                className="text-xl p-3 my-4 md:m-4 border border-slate-300 rounded-lg "
+                className="text-lg md:text-xl p-3 my-3 md:m-4 border border-slate-300 rounded-lg "
                 type="tel"
                 name="mobile"
                 id="mobile"
@@ -62,7 +62,7 @@ const Contact = () => {
               <input
                 onChange={(e) => setEmailId(e.target.value)}
                 value={emailId}
-                className="text-xl p-3 my-4 md:m-4 border border-slate-300 rounded-lg "
+                className="text-lg md:text-xl p-3 my-3 md:m-4 border border-slate-300 rounded-lg "
                 type="email"
                 name="email"
                 id="email"
@@ -73,7 +73,7 @@ const Contact = () => {
             <textarea
               onChange={(e) => setMessage(e.target.value)}
               value={message}
-              className="text-xl p-3 my-4 md:m-4 border border-slate-300 rounded-lg "
+              className="text-lg md:text-xl p-3 my-3 md:m-4 border border-slate-300 rounded-lg "
               type="text"
               name="message"
               id="message"
@@ -92,8 +92,8 @@ const Contact = () => {
       </section>
 
       <section className="max-w-7xl mx-auto px-4 flex flex-col justify-around items-center md:flex-row md:items-start md:justify-between mb-8">
-        <div className="space-y-6 mb-10">
-          <h2 className="text-3xl font-bold text-gray-800 mb-8 font-poppins">
+        <div className="space-y-6 mb-10 ">
+          <h2 className="text-2xl font-bold text-gray-800 mb-8 font-poppins">
             Dinkar Seeds Limited
           </h2>
           <ContactInfo
@@ -119,7 +119,7 @@ const Contact = () => {
         </div>
 
         {/* Map */}
-        <div className="mb-8 ">
+        <div className="mb-8">
           <h3 className="text-xl font-bold text-gray-800 mb-4">Our Location</h3>
           <div className="bg-gray-200 border-2 border-dashed rounded-xl w-full h-64">
             {/* Google Maps iframe would go here */}
@@ -138,7 +138,7 @@ const Contact = () => {
 
 // Contact Info Component
 const ContactInfo = ({ icon, title, content }) => (
-  <div className="flex m-5">
+  <div className="flex">
     <div className="text-green-600 text-xl mt-1 mr-4">{icon}</div>
     <div>
       <h3 className="text-lg font-bold text-gray-800">{title}</h3>

@@ -31,7 +31,7 @@ const Home = () => {
         </div>
       </section>
 
-      <div className="m-[50px]">
+      <div className="m-4">
         {/* Categories Section */}
         <Category />
         {/* Products Section */}
