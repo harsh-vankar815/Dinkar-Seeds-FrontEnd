@@ -3,9 +3,10 @@ import Products from "./Products";
 import About from "../components/About";
 import Category from "./Category";
 import Contact from "./Contact";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
   return (
     <main>
       {/* Hero Section */}
@@ -25,8 +26,11 @@ const Home = () => {
             Dinkar Seeds Limited - Empowering farmers across Gujarat with
             premium quality seeds for maximum yield and sustainable farming.
           </p>
-          <button className="mt-4 px-6 py-3 bg-green-600 text-white rounded-lg shadow-lg hover:bg-green-700 transition">
-            <Link to={"/products"}>Explore Products</Link>
+          <button
+            onClick={() => navigate("/products")}
+            className="mt-4 px-6 py-3 bg-green-600 text-white rounded-lg shadow-lg hover:bg-green-700 transition"
+          >
+            Explore Products
           </button>
         </div>
       </section>
