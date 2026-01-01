@@ -19,7 +19,8 @@ const Login = () => {
       alert("Login Successfully");
       setEmail("");
       setPassword("");
-      navigate("/");
+      // navigate("/");
+      navigate("/profile");
     }
   };
 
