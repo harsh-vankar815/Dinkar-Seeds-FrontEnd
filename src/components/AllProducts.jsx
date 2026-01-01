@@ -169,7 +169,7 @@ const AllProducts = () => {
       </div>
 
       <div className="bg-green-200 p-3">
-        <h1 className="font-amatic text-5xl md:text-8xl text-center mb-3 text-green-700">
+        <h1 className="font-amatic text-5xl md:text-8xl text-center mb-3 text-green-700 font-bold">
           Our Premium Seeds
         </h1>
         <p className="text-center text-gray-600 mb-8 max-w-2xl mx-auto">

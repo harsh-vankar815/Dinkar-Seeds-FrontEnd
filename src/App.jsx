@@ -9,12 +9,13 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
+import Register from "./pages/auth/Register";
+import Login from "./pages/auth/Login";
 import AllProducts from "./components/AllProducts";
 import { useEffect } from "react";
 import Gallery from "./pages/Gallery";
 import SingleProduct from "./components/SingleProduct";
+import NotFound from "./components/NotFound";
 
 function App() {
   function ScrollToTop() {
@@ -43,6 +44,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Register />} />
             <Route path="/gallery" element={<Gallery />} />
+            {/* Catch-all route for any undefined URLs - MUST BE LAST */}
+            <Route path="*" element={<NotFound/>} />
           </Routes>
         </main>
         <Footer />

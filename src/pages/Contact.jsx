@@ -26,7 +26,7 @@ const Contact = () => {
   return (
     <>
       <section className="flex justify-center items-center flex-col mb-11">
-        <h1 className="font-amatic text-5xl md:text-8xl text-center mt-16">
+        <h1 className="font-amatic text-5xl md:text-8xl text-center mt-16 text-green-700 font-bold">
           Contact
         </h1>
         <p className="font-amatic text-xl mt-4 text-center italic">

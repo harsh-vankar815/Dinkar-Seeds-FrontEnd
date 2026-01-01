@@ -8,7 +8,7 @@ const Category = () => {
 
   return (
     <section className="min-h-[70vh]">
-      <h1 className="font-amatic text-5xl md:text-8xl text-center mt-16">
+      <h1 className="font-amatic text-5xl md:text-8xl text-center text-green-700 font-bold mt-16">
         Agriculture Seeds, Fertilizer and Pesticide
       </h1>
       <div className="cards grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-8 flex-grow flex-wrap">

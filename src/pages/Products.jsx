@@ -31,7 +31,7 @@ const Products = () => {
     <section className="min-h-[50vh] relative px-4 md:px-8">
       
       {/* Heading */}
-      <h1 className="font-amatic text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-center mt-16">
+      <h1 className="font-amatic text-5xl md:text-8xl text-center mt-16 text-green-700 font-bold">
         Products
       </h1>
 
