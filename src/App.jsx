@@ -17,7 +17,7 @@ import Gallery from "./pages/Gallery";
 import SingleProduct from "./components/SingleProduct";
 import NotFound from "./components/NotFound";
 import Profile from "./pages/Profile";
-import WhatsAppButton from "./components/WhatsAppButton";
+import ChatBot from "./components/ChatBot";
 
 function App() {
   function ScrollToTop() {
@@ -47,12 +47,13 @@ function App() {
             <Route path="/signup" element={<Register />} />
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/profile" element={<Profile />} />
+            {/* <Route path="/chat" element={<ChatBot />} /> */}
             {/* Catch-all route for any undefined URLs - MUST BE LAST */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
         <Footer />
-        <WhatsAppButton />
+        <ChatBot/>
       </div>
     </Router>
   );
