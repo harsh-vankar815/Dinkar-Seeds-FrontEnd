@@ -21,8 +21,10 @@ import ChatBot from "./components/ChatBot";
 import AddProduct from "./admin/AddProduct";
 import EditProduct from "./admin/EditProduct";
 import AdminProducts from "./admin/AdminProducts";
+import AdminDashboard from "./admin/AdminDashboard";
+import AdminLayout from "./admin/AdminLayout";
 
-function App() {
+
   function ScrollToTop() {
     const { pathname } = useLocation();
 
@@ -33,34 +35,57 @@ function App() {
     return null;
   }
 
+function AppContent() {
+  const location = useLocation();
+
+  // ✅ Detect admin routes
+  const isAdminRoute = location.pathname.startsWith("/admin");
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      {/* Header only for non-admin */}
+      <Header />
+
+      <main className="flex-grow">
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/products" element={<AllProducts />} />
+          <Route path="/product/:id" element={<SingleProduct />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Register />} />
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/profile" element={<Profile />} />
+
+          {/* Admin Routes */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminDashboard />} />
+            <Route path="products" element={<AdminProducts />} />
+            <Route path="add-product" element={<AddProduct />} />
+            <Route path="edit-product/:id" element={<EditProduct />} />
+          </Route>
+
+          {/* 404 */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </main>
+
+      {/* Footer only for non-admin */}
+      {!isAdminRoute && <Footer />}
+
+      {/* Chatbot only for public site */}
+      {!isAdminRoute && <ChatBot />}
+    </div>
+  );
+}
+
+function App() {
   return (
     <Router>
       <ScrollToTop />
-      <div className="flex flex-col min-h-screen">
-        <Header />
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/products" element={<AllProducts />} />
-            <Route path="/product/:id" element={<SingleProduct />} />
-            <Route path="/prod" element={<SingleProduct />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Register />} />
-            <Route path="/gallery" element={<Gallery />} />
-            <Route path="/profile" element={<Profile />} />
-            {/* Admin Routes */}
-            <Route path="/admin/products" element={<AdminProducts />} />
-            <Route path="/admin/add-product" element={<AddProduct />} />
-            <Route path="/admin/edit-product/:id" element={<EditProduct />} />
-            {/* Catch-all route for any undefined URLs - MUST BE LAST */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </main>
-        <Footer />
-        <ChatBot />
-      </div>
+      <AppContent />
     </Router>
   );
 }

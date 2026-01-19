@@ -17,14 +17,14 @@ const AdminProducts = () => {
 
   return (
     <section className="min-h-screen bg-zinc-100 p-4 md:p-6">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl md:text-3xl font-bold text-green-700">
-          🛠️ Admin – Product List
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-green-700">
+          🛠️ Admin - Product List
         </h1>
 
         <button
           onClick={() => navigate("/admin/add-product")}
-          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg"
+          className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm sm:text-base"
         >
           + Add New Product
         </button>
