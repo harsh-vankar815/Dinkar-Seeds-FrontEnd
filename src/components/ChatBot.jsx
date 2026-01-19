@@ -34,7 +34,7 @@ const ChatBot = () => {
       const aiReply = {
         sender: "bot",
         text: getDummyAIResponse(
-          userMsg.text || "🤖 Sorry, I am still learning."
+          userMsg.text || "🤖 Sorry, I am still learning.",
         ),
       };
       setMessages((prev) => [...prev, aiReply]);
@@ -88,7 +88,7 @@ const ChatBot = () => {
             {messages.map((msg, i) => (
               <div
                 key={i}
-                className={`max-w-[80%] px-3 py-2 rounded-xl ${
+                className={`max-w-[80%] px-3 py-2 rounded-xl break-words ${
                   msg.sender === "user"
                     ? "bg-green-500 text-white ml-auto"
                     : "bg-white border"

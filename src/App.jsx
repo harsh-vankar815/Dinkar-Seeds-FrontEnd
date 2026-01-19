@@ -18,6 +18,9 @@ import SingleProduct from "./components/SingleProduct";
 import NotFound from "./components/NotFound";
 import Profile from "./pages/Profile";
 import ChatBot from "./components/ChatBot";
+import AddProduct from "./admin/AddProduct";
+import EditProduct from "./admin/EditProduct";
+import AdminProducts from "./admin/AdminProducts";
 
 function App() {
   function ScrollToTop() {
@@ -47,13 +50,16 @@ function App() {
             <Route path="/signup" element={<Register />} />
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/profile" element={<Profile />} />
-            {/* <Route path="/chat" element={<ChatBot />} /> */}
+            {/* Admin Routes */}
+            <Route path="/admin/products" element={<AdminProducts />} />
+            <Route path="/admin/add-product" element={<AddProduct />} />
+            <Route path="/admin/edit-product/:id" element={<EditProduct />} />
             {/* Catch-all route for any undefined URLs - MUST BE LAST */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
         <Footer />
-        <ChatBot/>
+        <ChatBot />
       </div>
     </Router>
   );
