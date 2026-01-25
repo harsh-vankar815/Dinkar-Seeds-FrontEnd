@@ -114,8 +114,8 @@ const Register = () => {
                 placeholder="Password"
                 className="border w-full md:1/2 hover:bg-gray-100 focus:bg-white focus:outline-green-700 placeholder:text-gray-400 h-10 p-4 pr-10 rounded-lg border-slate-400"
               />
-              <button
-                className="absolute right-3 top-1/2 -translate-y-1/2"
+              <div
+                className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? (
@@ -123,7 +123,7 @@ const Register = () => {
                 ) : (
                   <HiEye className="h-5 w-5" />
                 )}
-              </button>
+              </div>
             </div>
             {!isPassSame && password && passwordCon && (
               <span className="text-xs text-red-700 p-0 m-0">
@@ -141,8 +141,8 @@ const Register = () => {
                 placeholder="Confirm password"
                 className="border w-full md:1/2 hover:bg-gray-100 focus:bg-white focus:outline-green-700 placeholder:text-gray-400 h-10 p-4 pr-10 rounded-lg border-slate-400"
               />
-              <button
-                className="absolute right-3 top-1/2 -translate-y-1/2"
+              <div
+                className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
                 onClick={() => setShowPasswordCon(!showPasswordCon)}
               >
                 {showPasswordCon ? (
@@ -150,7 +150,7 @@ const Register = () => {
                 ) : (
                   <HiEye className="h-5 w-5" />
                 )}
-              </button>
+              </div>
             </div>
           </div>
         </div>

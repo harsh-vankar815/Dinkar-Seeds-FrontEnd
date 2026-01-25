@@ -62,8 +62,8 @@ const Login = () => {
               placeholder="Password"
               className="border w-full focus:bg-white focus:outline-green-700 hover:bg-gray-100 transition placeholder:text-gray-400 h-10 p-4 rounded-lg border-slate-400"
             />
-            <button
-              className="absolute right-3 top-1/2 -translate-y-1/2"
+            <div
+              className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? (
@@ -71,7 +71,7 @@ const Login = () => {
               ) : (
                 <HiEye className="h-5 w-5" />
               )}
-            </button>
+            </div>
           </div>
         </div>
         <div className="my-1">
