@@ -2,26 +2,43 @@ import { useState } from "react";
 import { GoSignIn } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 import { HiEye, HiEyeOff } from "react-icons/hi";
+import { loginUser } from "../../services/userApi";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     const isSubmit = [email, password].every(Boolean) === true;
-    console.log(isSubmit);
     if (isSubmit) {
-      console.log(`email: ${email}\nPassword: ${password}\n`);
-      alert("Login Successfully");
-      setEmail("");
-      setPassword("");
-      // navigate("/");
-      navigate("/profile");
+      try {
+        setLoading(true);
+        setError("")
+
+        const res =  await loginUser({ email, password });
+
+        // storing accessToken in frontend
+        localStorage.setItem("accessToken", res.data.accessToken);
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+
+        alert("Login User Successfull")
+        navigate("/profile");
+      } catch (err) {
+        setError(err.response?.data?.message || "Login failed");
+      } finally {
+        setLoading(false);
+      }
     }
+  };
+
+  const googleLogin = () => {
+    window.location.href = "http://localhost:5000/api/auth/google";
   };
 
   return (
@@ -74,6 +91,7 @@ const Login = () => {
             </div>
           </div>
         </div>
+        {error && <p className="text-red-600 text-sm text-center">{error}</p>}
         <div className="my-1">
           <span className="cursor-pointer text-md text-green-600 hover:text-green-500 font-semibold">
             Forgot your password?
@@ -93,7 +111,10 @@ const Login = () => {
             or continue with
           </span>
         </div>
-        <div className="googleBtn w-full sm:w-[24rem] md:w-[28rem] flex justify-center h-12 gap-3 items-center border rounded-lg hover:bg-zinc-100 transition cursor-pointer">
+        <div
+          onClick={googleLogin}
+          className="googleBtn w-full sm:w-[24rem] md:w-[28rem] flex justify-center h-12 gap-3 items-center border rounded-lg hover:bg-zinc-100 transition cursor-pointer"
+        >
           <span>
             <svg
               stroke="currentColor"

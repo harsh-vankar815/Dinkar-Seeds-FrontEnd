@@ -1,17 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getProfile, logoutUser, updateProfile } from "../services/userApi";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const [error, setError]  = useState("")
-  const [user, setUser] = useState({
-    name: "Harsh Vankar",
-    bio: "MERN Stack Developer | Final Year Student | Passionate about Web Technologies",
-    image:
-      "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=400",
-  });
+  const [error, setError] = useState("");
+  const [user, setUser] = useState({});
 
   // temporary editing state
-  const [editData, setEditData] = useState(user);
+  const [editData, setEditData] = useState({});
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await getProfile();
+        setUser(res.data.user);
+        setEditData(res.data.user);
+      } catch (err) {
+        navigate("/login");
+      }
+    };
+
+    fetchProfile();
+  }, []);
 
   const handleChange = (e) => {
     setEditData({ ...editData, [e.target.name]: e.target.value });
@@ -19,24 +31,53 @@ const Profile = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    if (file) setEditData({ ...editData, image: URL.createObjectURL(file) });
+    setEditData({ ...editData, image: file });
   };
 
-  const handleSave = () => {
-    if (!editData.name.trim() || !editData.bio.trim()) {
-      setError("Name and Bio cannot be empty")
+  const handleSave = async () => {
+    if (
+      !editData.firstName.trim() ||
+      !editData.lastName.trim() ||
+      !editData.bio.trim()
+    ) {
+      setError("Firstname, Lastname and Bio cannot be empty");
       return;
     }
-    setUser(editData);
-    setIsEditing(false)
-    setError("")
-  }
+    try {
+      let uploadedImage = null;
+      console.log("uploaded image null", uploadedImage)
+      if (editData.image instanceof File) {
+        uploadedImage = editData.image;
+        console.log("uploaded image ifelse", uploadedImage)
+      }
+      const res = await updateProfile({
+        firstName: editData.firstName,
+        lastName: editData.lastName,
+        bio: editData.bio,
+        image: uploadedImage
+      });
+
+      setUser(res.data.user);
+      setEditData(res.data.user);
+      setIsEditing(false);
+      setError("");
+    } catch (err) {
+      setError("Profile updated failed");
+    }
+  };
+
+  const handleLogOut = async () => {
+    await logoutUser();
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
 
   const handleCancel = () => {
     setEditData(user);
-    setIsEditing(false)
-    setError("")
-  }
+    setIsEditing(false);
+    setError("");
+  };
 
   const purchasedProducts = [
     {
@@ -66,7 +107,7 @@ const Profile = () => {
         <div className="bg-white rounded-2xl shadow-md p-6 md:p-8 flex flex-col md:flex-row items-center gap-6">
           <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-green-600">
             <img
-              src={isEditing ? editData.image : user.image}
+              src={editData.image instanceof File ? URL.createObjectURL(editData.image): editData.image}
               alt="profile"
               className="w-full h-full object-cover"
             />
@@ -84,13 +125,22 @@ const Profile = () => {
           <div className="text-center md:text-left">
             {isEditing ? (
               <>
-                <input
-                  type="text"
-                  name="name"
-                  value={editData.name}
-                  onChange={handleChange}
-                  className="w-full border rounded-lg px-4 py-2 mb-3"
-                />
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={editData.firstName}
+                    onChange={handleChange}
+                    className="w-full border rounded-lg px-4 py-2 mb-3"
+                  />
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={editData.lastName}
+                    onChange={handleChange}
+                    className="w-full border rounded-lg px-4 py-2 mb-3"
+                  />
+                </div>
                 <textarea
                   name="bio"
                   value={editData.bio}
@@ -98,14 +148,12 @@ const Profile = () => {
                   rows="3"
                   className="w-full border rounded-lg px-4 py-2"
                 />
-                {error && (
-                  <p className="text-red-600 text-sm mt-2">{error}</p>
-                )}
+                {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
               </>
             ) : (
               <>
                 <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
-                  {user.name}
+                  {`${editData.firstName} ${editData.lastName}`}
                 </h1>
                 <p className="text-gray-600 mt-2 max-w-xl">{user.bio}</p>
               </>
@@ -114,25 +162,25 @@ const Profile = () => {
             <div className="mt-5 flex flex-col sm:flex-row gap-3">
               {isEditing ? (
                 <>
-                <button
-                  onClick={handleSave}
-                  className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition"
-                >
-                  Save Profile
-                </button>
+                  <button
+                    onClick={handleSave}
+                    className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition"
+                  >
+                    Save Profile
+                  </button>
 
-                <button
-                  onClick={handleCancel}
-                  className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition"
-                >
-                  Cancel
-                </button>
+                  <button
+                    onClick={handleCancel}
+                    className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition"
+                  >
+                    Cancel
+                  </button>
                 </>
               ) : (
                 <button
                   onClick={() => {
                     setEditData(user);
-                    setIsEditing(true)
+                    setIsEditing(true);
                   }}
                   className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold transition"
                 >
@@ -140,11 +188,14 @@ const Profile = () => {
                 </button>
               )}
 
-              { !isEditing && (
-                <button className="border border-green-600 text-green-700 hover:bg-green-50 px-6 py-2 rounded-lg font-semibold transition">
-                Logout
-              </button>
-              ) }
+              {!isEditing && (
+                <button
+                  onClick={handleLogOut}
+                  className="border border-green-600 text-green-700 hover:bg-green-50 px-6 py-2 rounded-lg font-semibold transition"
+                >
+                  Logout
+                </button>
+              )}
             </div>
           </div>
         </div>

@@ -23,6 +23,7 @@ import EditProduct from "./admin/EditProduct";
 import AdminProducts from "./admin/AdminProducts";
 import AdminDashboard from "./admin/AdminDashboard";
 import AdminLayout from "./admin/AdminLayout";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
 
   function ScrollToTop() {
@@ -57,7 +58,12 @@ function AppContent() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Register />} />
           <Route path="/gallery" element={<Gallery />} />
-          <Route path="/profile" element={<Profile />} />
+          {/* ab bina login ke profile open nahi hogi */}
+          <Route path="/profile" element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          } />
 
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminLayout />}>

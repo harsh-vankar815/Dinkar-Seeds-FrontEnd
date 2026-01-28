@@ -2,6 +2,7 @@ import { useState } from "react";
 import { GoSignIn } from "react-icons/go";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
+import { registerUser } from "../../services/userApi";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -11,33 +12,41 @@ const Register = () => {
   const [last, setLast] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordCon, setShowPasswordCon] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     const isSubmit =
       [email, password, passwordCon, first, last].every(Boolean) === true;
-    const confirmPassword = password === passwordCon;
-    console.log(isSubmit, confirmPassword);
-    if (isSubmit && confirmPassword) {
-      console.log(
-        `First name: ${first}\n
-        Last name: ${last}\n
-        email: ${email}\n
-        Password: ${password}\n
-        Confirm password: ${passwordCon}`
-      );
-      console.log("credentials saved in DB");
 
-      setEmail("");
-      setFirst("");
-      setLast("");
-      setPassword("");
-      setPasswordCon("");
-      alert("Signup Successfully");
-      navigate("/login");
+    if (isSubmit) {
+      try {
+        setLoading(true);
+        setError("");
+
+        const res = await registerUser({
+          firstName: first,
+          lastName: last,
+          email,
+          password,
+          confirmPassword: passwordCon,
+        });
+        alert("Signup User Successfull")
+        navigate("/login");
+      } catch (err) {
+        setError(err.response?.data?.message || "Registration failed");
+      } finally {
+        setLoading(false);
+      }
     }
+  };
+
+  const googleRegister = () => {
+    window.location.href = "http://localhost:5000/api/auth/google";
   };
 
   const isPassSame = passwordCon === password;
@@ -51,7 +60,10 @@ const Register = () => {
         <h1 className="text-3xl">Create your account</h1>
         <p>
           Or{" "}
-          <span className="cursor-pointer text-md text-green-600 font-semibold">
+          <span
+            onClick={() => navigate("/login")}
+            className="cursor-pointer text-md text-green-600 font-semibold"
+          >
             sign in to your existing account
           </span>
         </p>
@@ -154,6 +166,7 @@ const Register = () => {
             </div>
           </div>
         </div>
+        {error && <p className="text-red-600 text-sm text-center">{error}</p>}
         <div className="my-1">
           <span className="text-md cursor-pointer text-green-600 hover:text-green-500 font-semibold">
             Forgot your password?
@@ -173,7 +186,10 @@ const Register = () => {
             or continue with
           </span>
         </div>
-        <div className="googleBtn w-full sm:w-[24rem] md:w-[28rem] flex justify-center h-12 items-center border gap-3 rounded-lg hover:bg-zinc-100 transition cursor-pointer">
+        <div
+          onClick={googleRegister}
+          className="googleBtn w-full sm:w-[24rem] md:w-[28rem] flex justify-center h-12 items-center border gap-3 rounded-lg hover:bg-zinc-100 transition cursor-pointer"
+        >
           <span>
             <svg
               stroke="currentColor"
