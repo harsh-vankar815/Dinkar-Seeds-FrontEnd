@@ -1,9 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FiAlignJustify, FiX } from "react-icons/fi";
+import { isAuthenticated } from "../utils/auth";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const navigate = useNavigate();
+  const auth = isAuthenticated();
 
   const navbarArray = [
     { name: "Home", path: "/" },
@@ -13,6 +17,11 @@ const Header = () => {
     { name: "Gallery", path: "/gallery" },
   ];
 
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    navigate("/login");
+  };
+
   const onIsOpen = () => {
     isOpen ? setIsOpen(false) : setIsOpen(true);
   };
@@ -20,8 +29,8 @@ const Header = () => {
   const DropNav = () => (
     <div className="absolute top-20 left-0 w-full bg-white shadow-xl md:hidden z-40">
       <ul className="flex flex-col divide-y">
-        {navbarArray.map((item, index) => (
-          <li key={index}>
+        {navbarArray.map((item) => (
+          <li key={item.path}>
             <Link
               to={item.path}
               onClick={() => setIsOpen(false)}
@@ -35,23 +44,39 @@ const Header = () => {
         {/* Auth Section */}
         <li className="py-4">
           <div className="flex items-center justify-center gap-3 text-sm font-medium">
-            <Link
-              to="/login"
-              onClick={() => setIsOpen(false)}
-              className="hover:text-green-700 transition"
-            >
-              Login
-            </Link>
+            {!auth ? (
+              <>
+                <Link
+                  to="/login"
+                  onClick={() => setIsOpen(false)}
+                  className="hover:text-green-700 transition"
+                >
+                  Login
+                </Link>
 
-            <span className="text-gray-400">/</span>
+                <span className="text-gray-400">/</span>
 
-            <Link
-              to="/signup"
-              onClick={() => setIsOpen(false)}
-              className="hover:text-green-700 transition"
-            >
-              Register
-            </Link>
+                <Link
+                  to="/signup"
+                  onClick={() => setIsOpen(false)}
+                  className="hover:text-green-700 transition"
+                >
+                  Register
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  to={"/profile"}
+                  onClick={() => setIsOpen(false)}
+                  className="hover:text-green-700 transition"
+                >
+                  Profile
+                </Link>
+                <span className="text-gray-400">/</span>
+                <button onClick={handleLogout}>Logout</button>
+              </>
+            )}
           </div>
         </li>
       </ul>
@@ -85,15 +110,32 @@ const Header = () => {
           ))}
         </ul>
         <div className="buttons hidden sm:flex text-sm md:text-lg space-x-3">
-          <Link to={"/login"}>
-            <button className="text-black hover:text-green-700">Login</button>
-          </Link>
-          <span>/</span>
-          <Link to={"/signup"}>
-            <button className="text-black hover:text-green-700">
-              Register
-            </button>
-          </Link>
+          {!auth ? (
+            <>
+              <Link to="/login" className="hover:text-green-700 transition">
+                Login
+              </Link>
+
+              <span className="text-gray-400">/</span>
+
+              <Link to="/signup" className="hover:text-green-700 transition">
+                Register
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link to={"/profile"} className="hover:text-green-700 transition">
+                Profile
+              </Link>
+              <span className="text-gray-400">/</span>
+              <button
+                onClick={handleLogout}
+                className="text-black hover:text-green-700"
+              >
+                Logout
+              </button>
+            </>
+          )}
         </div>
 
         <button

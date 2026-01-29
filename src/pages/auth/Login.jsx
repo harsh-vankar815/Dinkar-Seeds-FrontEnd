@@ -19,15 +19,15 @@ const Login = () => {
     if (isSubmit) {
       try {
         setLoading(true);
-        setError("")
+        setError("");
 
-        const res =  await loginUser({ email, password });
+        const res = await loginUser({ email, password });
 
         // storing accessToken in frontend
         localStorage.setItem("accessToken", res.data.accessToken);
         localStorage.setItem("user", JSON.stringify(res.data.user));
 
-        alert("Login User Successfull")
+        alert("Login User Successfull");
         navigate("/profile");
       } catch (err) {
         setError(err.response?.data?.message || "Login failed");
@@ -50,7 +50,10 @@ const Login = () => {
         <h1 className="text-3xl">Sign in to your account</h1>
         <p>
           Or{" "}
-          <span className="cursor-pointer text-md text-green-600 font-semibold">
+          <span
+            onClick={() => navigate("/signup")}
+            className="cursor-pointer text-md text-green-600 font-semibold"
+          >
             create a new account
           </span>
         </p>
