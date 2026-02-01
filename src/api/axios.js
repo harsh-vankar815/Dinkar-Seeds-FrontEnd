@@ -13,9 +13,9 @@ API.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
-});
+}, (err) => Promise.reject(err));
 
-// RESPONSE INTERCEPTOR (AUTO REFRESH)
+// RESPONSE INTERCEPTOR (AUTO REFRESH) token expire handle
 let isRefreshing = false;
 let failedQueue = [];
 
@@ -30,7 +30,7 @@ const processQueue = (err, token = null) => {
   failedQueue = [];
 };
 
-API.interceptors.request.use(
+API.interceptors.response.use(
   (response) => response,
   async (err) => {
     const originalRequest = err.config;
@@ -52,7 +52,12 @@ API.interceptors.request.use(
       isRefreshing = true;
 
       try {
-        const res = await API.post("/auth/refresh-token");
+        const res = await axios.post(
+          "http://localhost:5000/api/auth/refresh-token",
+          {},
+          { withCredentials: true }
+        );
+        
         const { accessToken } = res.data;
 
         localStorage.setItem("accessToken", accessToken);

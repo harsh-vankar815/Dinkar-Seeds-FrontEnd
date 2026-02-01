@@ -12,7 +12,7 @@ import Contact from "./pages/Contact";
 import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login";
 import AllProducts from "./components/AllProducts";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Gallery from "./pages/Gallery";
 import SingleProduct from "./components/SingleProduct";
 import NotFound from "./components/NotFound";
@@ -24,20 +24,31 @@ import AdminProducts from "./admin/AdminProducts";
 import AdminDashboard from "./admin/AdminDashboard";
 import AdminLayout from "./admin/AdminLayout";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import AuthSuccess from "./components/AuthSuccess";
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
 
-  function ScrollToTop() {
-    const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
-    useEffect(() => {
-      window.scrollTo(0, 0);
-    }, [pathname]);
-
-    return null;
-  }
+  return null;
+}
 
 function AppContent() {
   const location = useLocation();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+      const token = localStorage.getItem("accessToken");
+      const storedUser = localStorage.getItem("user")
+      if (token && storedUser) {
+        setUser(JSON.parse(storedUser))
+      } else {
+        setUser(null)
+      }
+  }, [location.pathname]);
 
   // ✅ Detect admin routes
   const isAdminRoute = location.pathname.startsWith("/admin");
@@ -45,7 +56,7 @@ function AppContent() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header only for non-admin */}
-      <Header />
+      <Header currentUser={user} />
 
       <main className="flex-grow">
         <Routes>
@@ -57,16 +68,27 @@ function AppContent() {
           <Route path="/product/:id" element={<SingleProduct />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Register />} />
+           <Route path="/auth/success" element={<AuthSuccess />} />
           <Route path="/gallery" element={<Gallery />} />
           {/* ab bina login ke profile open nahi hogi */}
-          <Route path="/profile" element={
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          } />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Admin Routes */}
-          <Route path="/admin" element={<AdminLayout />}>
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute adminOnly>
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<AdminDashboard />} />
             <Route path="products" element={<AdminProducts />} />
             <Route path="add-product" element={<AddProduct />} />

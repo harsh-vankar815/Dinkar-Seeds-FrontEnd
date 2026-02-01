@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { productsList } from "../data/productsData";
+import { getSingleProduct, updateProduct } from "../services/productApi";
 
 const EditProduct = () => {
+  const server_url = import.meta.env.VITE_SERVER_URL;
   const initialState = {
     productName: "",
     category: "",
@@ -22,38 +23,34 @@ const EditProduct = () => {
       irrigation: "",
     },
   };
+
   const { id } = useParams();
   const navigate = useNavigate();
   const [formData, setFormData] = useState(initialState);
 
   const [preview, setPreview] = useState("");
   const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(true);
 
   const fileRef = useRef();
 
-  //   loading product data from productsList
   useEffect(() => {
-    const product = productsList.find((item) => String(item.id) === String(id));
+    const fetchProduct = async () => {
+      try {
+        const res = await getSingleProduct(id);
 
-    if (!product) {
-      alert("Product not found");
-      navigate("/admin/products");
-      return;
-    }
+        if (!res.data.product) {
+          alert("Product not found");
+          navigate("/admin/products");
+          return;
+        }
 
-    setFormData({
-      productName: product.productName || "",
-      category: product.category || "",
-      price: product.price || "",
-      discount: product.discount || "",
-      img: product.img || "",
-      details: product.details || initialState.details,
-      specifications: product.specifications || initialState.specifications,
-    });
-
-    setPreview(product.img || "");
-    setLoading(false);
+        setFormData(res.data.product);
+        setPreview(res.data.product.img);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchProduct();
   }, [id, navigate]);
 
   const handleChange = (e) => {
@@ -83,36 +80,64 @@ const EditProduct = () => {
   const validate = () => {
     const newErrors = {};
 
-    if (!formData.productName.trim())
+    if (!formData.productName?.toString().trim())
       newErrors.productName = "Product name is required";
-    if (!formData.price.trim()) newErrors.price = "Price is required";
+
+    // Convert to string first to avoid ".trim is not a function"
+    if (!formData.price?.toString().trim())
+      newErrors.price = "Price is required";
+
     if (!formData.img && !preview)
       newErrors.image = "Product image is required";
-    setErrors(newErrors);
 
+    setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleUpdate = (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
 
     if (!validate()) return;
 
-    console.log("UPDATED PRODUCT:", {
-      ...formData,
-      img: preview,
-    });
+    try {
+      const formDataObj = new FormData();
 
-    setFormData(initialState);
-    setPreview("");
-    setErrors({});
-    fileRef.current.value = "";
-    navigate("/admin/products");
+      // basic fields
+      formDataObj.append("productName", formData.productName);
+      formDataObj.append("category", formData.category);
+      formDataObj.append("price", Number(formData.price));
+      formDataObj.append("discount", Number(formData.discount));
 
-    alert("Product updated successfully (Check Console)");
+      // nested objects → stringify (VERY IMPORTANT)
+      formDataObj.append("details", JSON.stringify(formData.details));
+      formDataObj.append(
+        "specifications",
+        JSON.stringify(formData.specifications),
+      );
+
+      // image (OPTIONAL in update)
+      if (fileRef.current && fileRef.current.files[0]) {
+        formDataObj.append("image", fileRef.current.files[0]);
+      }
+
+      await updateProduct(id, formDataObj);
+
+      console.log("UPDATED PRODUCT:", {
+        formDataObj,
+      });
+
+      setPreview("");
+      setErrors({});
+      if (fileRef.current) fileRef.current.value = "";
+      navigate("/admin/products");
+      alert("Product updated successfully");
+    } catch (err) {
+      console.error("Update Error:", err);
+      alert("Update failed. Please try again.");
+    }
   };
 
-  if (loading) return <p className="p-6">Loading...</p>;
+  if (!formData) return <p className="p-6">Loading...</p>;
 
   return (
     <div className="bg-[#f4f7f2] min-h-screen py-6 sm:py-10 px-3 sm:px-6">
@@ -255,8 +280,8 @@ const EditProduct = () => {
           <div className="border rounded-xl overflow-hidden">
             <img
               src={
+                `${server_url}${formData.img}` ||
                 preview ||
-                formData.img ||
                 "https://via.placeholder.com/400x250?text=Product+Image"
               }
               alt="preview"

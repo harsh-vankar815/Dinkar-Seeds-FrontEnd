@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
 import { getProfile, logoutUser, updateProfile } from "../services/userApi";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { isAuthenticated } from "../utils/auth";
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState("");
   const [user, setUser] = useState({});
+  const [auth, setAuth] = useState(false)
 
   // temporary editing state
   const [editData, setEditData] = useState({});
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -18,12 +21,18 @@ const Profile = () => {
         setUser(res.data.user);
         setEditData(res.data.user);
       } catch (err) {
-        navigate("/login");
+        if (err.response?.status === 401) {
+    navigate("/login");
+  }
       }
     };
 
     fetchProfile();
   }, []);
+
+  useEffect(() => {
+    setAuth(isAuthenticated());
+  }, [location])
 
   const handleChange = (e) => {
     setEditData({ ...editData, [e.target.name]: e.target.value });
@@ -70,6 +79,7 @@ const Profile = () => {
     await logoutUser();
     localStorage.removeItem("accessToken");
     localStorage.removeItem("user");
+    localStorage.clear();
     navigate("/login");
   };
 

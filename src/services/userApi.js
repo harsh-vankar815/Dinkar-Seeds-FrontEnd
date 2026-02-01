@@ -1,6 +1,5 @@
 import API from '../api/axios'
 
-
 // we don't need to send access token manually, it will handled by /api/axios.js Ka interceptor
 // GET PROFILE
 export const getProfile = () => API.get('/profile/me')

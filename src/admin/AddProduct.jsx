@@ -1,6 +1,9 @@
 import { useState, useRef } from "react";
+import { createProduct } from "../services/productApi";
+import { useNavigate } from "react-router-dom";
 
 const AddProduct = () => {
+  const navigate = useNavigate();
   const initialState = {
     productName: "",
     category: "",
@@ -59,29 +62,55 @@ const AddProduct = () => {
     if (!formData.productName.trim())
       newErrors.productName = "Product name is required";
     if (!formData.price.trim()) newErrors.price = "Price is required";
-    if (!formData.imageUrl && !preview)
+    if (!formData.img && !preview)
       newErrors.image = "Product image is required";
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!validate()) return;
 
-    console.log({
-      ...formData,
-      img: formData.imageUrl || preview,
-    });
+    try {
+      const formDataObj = new FormData();
 
-    setFormData(initialState);
-    setPreview("");
-    setErrors({});
-    fileRef.current.value = "";
+      // basic fields
+      formDataObj.append("productName", formData.productName);
+      formDataObj.append("category", formData.category);
+      formDataObj.append("price", Number(formData.price));
+      formDataObj.append("discount", Number(formData.discount));
 
-    alert("Product Added successfully (Check Console)");
+      // nested objects (VERY IMPORTANT)
+      formDataObj.append("details", JSON.stringify(formData.details));
+      formDataObj.append(
+        "specifications",
+        JSON.stringify(formData.specifications),
+      );
+
+      // image (required in add)
+      if (fileRef.current && fileRef.current.files[0]) {
+        formDataObj.append("image", fileRef.current.files[0]);
+      } else if (formData.img) {
+        formDataObj.append("img", formData.img); // agar URL diya ho
+      }
+
+      await createProduct(formDataObj);
+
+      console.log("product data:", formDataObj);
+
+      setFormData(initialState);
+      setPreview("");
+      setErrors({});
+      if (fileRef.current) fileRef.current.value = "";
+      alert("Product Added successfully");
+      navigate("/admin/products");
+    } catch (err) {
+      console.error("Submission failed:", err);
+      alert("Failed to add product");
+    }
   };
 
   return (
@@ -153,10 +182,10 @@ const AddProduct = () => {
             <h3 className="font-semibold text-green-700">Product Image</h3>
 
             <input
-              name="imageUrl"
+              name="img"
               placeholder="Paste Image URL"
               className={`input w-full ${errors.image ? "border-red-500" : ""}`}
-              value={formData.imageUrl}
+              value={formData.img}
               onChange={handleChange}
             />
 
@@ -225,8 +254,8 @@ const AddProduct = () => {
           <div className="border rounded-xl overflow-hidden">
             <img
               src={
+                formData.img ||
                 preview ||
-                formData.imageUrl ||
                 "https://via.placeholder.com/400x250?text=Product+Image"
               }
               alt="preview"
@@ -244,7 +273,7 @@ const AddProduct = () => {
 
               <div className="flex gap-3 items-center">
                 <span className="text-green-700 font-bold text-base">
-                  ₹{formData.discount || formData.price || "0"}
+                  ₹{formData.discount || formData.price || 0}
                 </span>
                 {formData.discount && (
                   <span className="line-through text-gray-400 text-sm">

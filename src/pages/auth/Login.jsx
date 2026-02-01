@@ -28,7 +28,11 @@ const Login = () => {
         localStorage.setItem("user", JSON.stringify(res.data.user));
 
         alert("Login User Successfull");
-        navigate("/profile");
+        if (res.data.user.role === "admin") {
+          navigate("/admin");
+        } else {
+          navigate("/profile");
+        }
       } catch (err) {
         setError(err.response?.data?.message || "Login failed");
       } finally {

@@ -1,19 +1,34 @@
 import { IndianRupee, Pencil, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { productsList } from "../data/productsData";
+import { getAllProducts, deleteProduct } from '../services/productApi'
+import { useEffect, useState } from "react";
 
 const AdminProducts = () => {
+  const server_url = import.meta.env.VITE_SERVER_URL;
+  const [products, setProducts] = useState([])
   const navigate = useNavigate();
 
-  const handleDelete = (id) => {
+  const fetchProducts = async () => {
+    const { data } = await getAllProducts()
+    setProducts(data.products)
+  }
+
+  useEffect(() => {
+    fetchProducts()
+  }, [])
+
+  const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this product?"
     );
     if (!confirmDelete) return;
-
+    await deleteProduct(id)
+    fetchProducts()
     console.log("Delete Product ID:", id);
     // 👉 later API call / Redux dispatch here
   };
+
+  if (products.length === 0) return <p>No products avaliable to show</p>
 
   return (
     <section className="min-h-screen bg-zinc-100 p-4 md:p-6">
@@ -32,14 +47,14 @@ const AdminProducts = () => {
 
       {/* PRODUCT GRID */}
       <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {productsList.map((product, i) => (
+        {products.map((product) => (
           <article
-            key={i}
+            key={product._id}
             className="relative bg-white border rounded-xl p-3 space-y-2 hover:shadow-lg transition-all"
           >
             {/* IMAGE */}
             <img
-              src={product.img}
+              src={`${server_url}${product.img}`}
               alt={product.productName}
               className="w-full h-36 object-cover rounded-lg"
             />
@@ -65,7 +80,7 @@ const AdminProducts = () => {
             <div className="flex gap-2 pt-2">
               <button
                 onClick={() =>
-                  navigate(`/admin/edit-product/${product.id}`)
+                  navigate(`/admin/edit-product/${product._id}`)
                 }
                 className="flex-1 flex items-center justify-center gap-1 bg-blue-600 hover:bg-blue-700 text-white py-1.5 rounded-lg text-sm"
               >
@@ -74,7 +89,7 @@ const AdminProducts = () => {
               </button>
 
               <button
-                onClick={() => handleDelete(product.id)}
+                onClick={() => handleDelete(product._id)}
                 className="flex-1 flex items-center justify-center gap-1 bg-red-600 hover:bg-red-700 text-white py-1.5 rounded-lg text-sm"
               >
                 <Trash2 size={14} />

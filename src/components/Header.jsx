@@ -1,13 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FiAlignJustify, FiX } from "react-icons/fi";
-import { isAuthenticated } from "../utils/auth";
 
-const Header = () => {
+const Header = ({ currentUser }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navigate = useNavigate();
-  const auth = isAuthenticated();
+  const auth = !!currentUser;
+
+  const isAdmin = auth && currentUser?.role === 'admin';
 
   const navbarArray = [
     { name: "Home", path: "/" },
@@ -18,12 +19,10 @@ const Header = () => {
   ];
 
   const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    navigate("/login");
-  };
-
-  const onIsOpen = () => {
-    isOpen ? setIsOpen(false) : setIsOpen(true);
+     localStorage.removeItem("accessToken");
+  localStorage.removeItem("user");
+  navigate("/login");
+  window.location.reload();
   };
 
   const DropNav = () => (
@@ -73,6 +72,12 @@ const Header = () => {
                 >
                   Profile
                 </Link>
+                { isAdmin && (
+                  <>
+                    <span className="text-gray-400">/</span>
+                    <Link to={"/admin"}>Dashboard</Link>
+                  </>
+                )}
                 <span className="text-gray-400">/</span>
                 <button onClick={handleLogout}>Logout</button>
               </>
@@ -127,6 +132,12 @@ const Header = () => {
               <Link to={"/profile"} className="hover:text-green-700 transition">
                 Profile
               </Link>
+              { isAdmin && (
+                <>
+                  <span className="text-gray-400">/</span>
+                  <Link to={'/admin' } className="hover:text-green-700 transition">Dashboard</Link>
+                </>
+              )}
               <span className="text-gray-400">/</span>
               <button
                 onClick={handleLogout}
@@ -147,7 +158,6 @@ const Header = () => {
           ) : (
             <FiAlignJustify
               size={28}
-              onClick={onIsOpen}
               className="cursor-pointer md:hidden"
             />
           )}
