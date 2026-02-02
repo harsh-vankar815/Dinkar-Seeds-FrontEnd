@@ -25,6 +25,7 @@ import AdminDashboard from "./admin/AdminDashboard";
 import AdminLayout from "./admin/AdminLayout";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import AuthSuccess from "./components/AuthSuccess";
+import { getProfile } from "./services/userApi";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -40,15 +41,26 @@ function AppContent() {
   const location = useLocation();
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-      const token = localStorage.getItem("accessToken");
-      const storedUser = localStorage.getItem("user")
-      if (token && storedUser) {
-        setUser(JSON.parse(storedUser))
-      } else {
-        setUser(null)
-      }
-  }, [location.pathname]);
+useEffect(() => {
+  const token = localStorage.getItem("accessToken");
+  const storedUser = localStorage.getItem("user");
+
+  if (!token || !storedUser || storedUser === "undefined") {
+    setUser(null);
+    return;
+  }
+
+  try {
+    const parsedUser = JSON.parse(storedUser);
+    setUser(parsedUser);
+  } catch (err) {
+    console.error("Invalid user JSON in localStorage", err);
+    localStorage.removeItem("user");
+    localStorage.removeItem("accessToken");
+    setUser(null);
+  }
+}, [location.pathname]);
+
 
   // ✅ Detect admin routes
   const isAdminRoute = location.pathname.startsWith("/admin");
