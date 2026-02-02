@@ -10,7 +10,6 @@ const AuthSuccess = () => {
       try {
         // backend automatic cookie ko check karega
         const res = await API.post("/auth/refresh-token");
-        console.log("AUTH RESPONSE:", res.data);
         localStorage.setItem("accessToken", res.data.accessToken);
         localStorage.setItem("user", JSON.stringify(res.data.user))
         navigate("/profile");
