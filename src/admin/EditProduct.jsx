@@ -57,6 +57,10 @@ const EditProduct = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
     setErrors({ ...errors, [name]: "" });
+    if (name === "img" && value.trim() !== "") {
+    if (fileRef.current) fileRef.current.value = ""; 
+    setPreview(value); // Live preview update
+  }
   };
 
   const handleNestedChange = (section, key, value) => {
@@ -117,7 +121,9 @@ const EditProduct = () => {
 
       // image (OPTIONAL in update)
       if (fileRef.current && fileRef.current.files[0]) {
-        formDataObj.append("image", fileRef.current.files[0]);
+        formDataObj.append("img", fileRef.current.files[0]);
+      } else if (formData.img && formData.img.trim() !== "") {
+        formDataObj.append("img", formData.img)
       }
 
       await updateProduct(id, formDataObj);
@@ -211,7 +217,7 @@ const EditProduct = () => {
               name="img"
               placeholder="Paste Image URL"
               className={`input w-full ${errors.image ? "border-red-500" : ""}`}
-              value={formData.img}
+              value={`${formData.img}`}
               onChange={handleChange}
             />
 
@@ -280,12 +286,12 @@ const EditProduct = () => {
           <div className="border rounded-xl overflow-hidden">
             <img
               src={
-                `${server_url}${formData.img}` ||
+                `${formData.img}` ||
                 preview ||
                 "https://via.placeholder.com/400x250?text=Product+Image"
               }
               alt="preview"
-              className="h-44 sm:h-48 w-full object-cover"
+              className="h-44 sm:h-48 w-full object-contain"
             />
 
             <div className="p-4 space-y-2">

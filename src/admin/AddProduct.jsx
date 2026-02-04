@@ -3,6 +3,8 @@ import { createProduct } from "../services/productApi";
 import { useNavigate } from "react-router-dom";
 
 const AddProduct = () => {
+  const server_url = import.meta.env.VITE_SERVER_URL;
+
   const navigate = useNavigate();
   const initialState = {
     productName: "",
@@ -37,6 +39,9 @@ const AddProduct = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
     setErrors({ ...errors, [name]: "" });
+    if (name === "img") {
+      setPreview(value); 
+    }
   };
 
   const handleNestedChange = (section, key, value) => {
@@ -92,8 +97,8 @@ const AddProduct = () => {
 
       // image (required in add)
       if (fileRef.current && fileRef.current.files[0]) {
-        formDataObj.append("image", fileRef.current.files[0]);
-      } else if (formData.img) {
+        formDataObj.append("img", fileRef.current.files[0]);
+      } else if (formData.img && formData.img.trim() !== "") {
         formDataObj.append("img", formData.img); // agar URL diya ho
       }
 
@@ -254,12 +259,12 @@ const AddProduct = () => {
           <div className="border rounded-xl overflow-hidden">
             <img
               src={
-                formData.img ||
                 preview ||
+                `${formData.img}` ||
                 "https://via.placeholder.com/400x250?text=Product+Image"
               }
               alt="preview"
-              className="h-44 sm:h-48 w-full object-cover"
+              className="h-44 sm:h-48 w-full object-contain"
             />
 
             <div className="p-4 space-y-2">

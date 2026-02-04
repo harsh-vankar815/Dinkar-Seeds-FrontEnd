@@ -1,34 +1,38 @@
 import { IndianRupee, Pencil, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { getAllProducts, deleteProduct } from '../services/productApi'
+import { getAllProducts, deleteProduct } from "../services/productApi";
 import { useEffect, useState } from "react";
 
 const AdminProducts = () => {
   const server_url = import.meta.env.VITE_SERVER_URL;
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 
   const fetchProducts = async () => {
-    const { data } = await getAllProducts()
-    setProducts(data.products)
-  }
+    const { data } = await getAllProducts();
+    setProducts(data.products);
+  };
 
   useEffect(() => {
-    fetchProducts()
-  }, [])
+    fetchProducts();
+  }, []);
 
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
-      "Are you sure you want to delete this product?"
+      "Are you sure you want to delete this product?",
     );
     if (!confirmDelete) return;
-    await deleteProduct(id)
-    fetchProducts()
-    console.log("Delete Product ID:", id);
+    try {
+      await deleteProduct(id);
+      setProducts(products.filter((p) => p._id !== id));
+      console.log("Delete Product ID:", id);
+    } catch (err) {
+      alert("delete failed");
+    }
     // 👉 later API call / Redux dispatch here
   };
 
-  if (products.length === 0) return <p>No products avaliable to show</p>
+  if (products.length === 0) return <p>No products avaliable to show</p>;
 
   return (
     <section className="min-h-screen bg-zinc-100 p-4 md:p-6">
@@ -47,22 +51,24 @@ const AdminProducts = () => {
 
       {/* PRODUCT GRID */}
       <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products.map((product) => (
+        {products.reverse().map((product) => (
           <article
             key={product._id}
             className="relative bg-white border rounded-xl p-3 space-y-2 hover:shadow-lg transition-all"
           >
             {/* IMAGE */}
             <img
-              src={`${server_url}${product.img}`}
+              src={
+                product.img.startsWith("http")
+                  ? product.img
+                  : `${server_url}${product.img}`
+              }
               alt={product.productName}
               className="w-full h-36 object-cover rounded-lg"
             />
 
             {/* NAME */}
-            <h2 className="font-bold text-lg">
-              {product.productName}
-            </h2>
+            <h2 className="font-bold text-lg">{product.productName}</h2>
 
             {/* PRICE */}
             <div className="flex items-center gap-2">
@@ -79,9 +85,7 @@ const AdminProducts = () => {
             {/* ACTION BUTTONS */}
             <div className="flex gap-2 pt-2">
               <button
-                onClick={() =>
-                  navigate(`/admin/edit-product/${product._id}`)
-                }
+                onClick={() => navigate(`/admin/edit-product/${product._id}`)}
                 className="flex-1 flex items-center justify-center gap-1 bg-blue-600 hover:bg-blue-700 text-white py-1.5 rounded-lg text-sm"
               >
                 <Pencil size={14} />
