@@ -1,12 +1,34 @@
 import { IndianRupee } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { productsList } from "../data/productsData";
+import { getAllProducts } from "../services/productApi";
 
 const AllProducts = () => {
+  const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
-
   const navigate = useNavigate();
+  const server_url = import.meta.env.VITE_SERVER_URL;
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const { data } = await getAllProducts();
+        setProducts(data.products);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  // filtering product
+  const filteredProduct = selectedCategory
+    ? products.filter(
+        (prod) =>
+          prod.category?.toLowerCase() === selectedCategory.toLowerCase(),
+      )
+    : products;
 
   // Product data me category add karo
   //   {
@@ -112,14 +134,6 @@ const AllProducts = () => {
     },
   ];
 
-  // filtering product
-  const filteredProduct = selectedCategory
-    ? productsList.filter(
-        (prod) =>
-          prod.category?.toLowerCase() === selectedCategory.toLowerCase()
-      )
-    : productsList;
-
   return (
     <section className="min-h-screen bg-zinc-100">
       <div className="flex flex-col md:flex-row gap-4 md:gap-6 border-b bg-white px-4 py-4 md:justify-center">
@@ -179,16 +193,16 @@ const AllProducts = () => {
       </div>
       {/* Products */}
       <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-5 p-5">
-        {filteredProduct.map((product, i) => (
+        {filteredProduct.map((product) => (
           <article
-            onClick={() => navigate(`/product/${product.id}`)}
-            key={i}
+            onClick={() => navigate(`/product/${product._id}`)}
+            key={product._id}
             className="w-full bg-white border flex flex-col items-center p-3 space-y-2 rounded-lg border-gray-300 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
           >
             <div className="image">
               <img
                 className="w-full h-32 object-cover rounded-lg"
-                src={product.img}
+                src={`${server_url}${product.img}`}
                 alt={product.productName}
               />
             </div>

@@ -1,15 +1,27 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { productsList } from "../data/productsData";
 import { ArrowLeft } from "lucide-react";
+import { getSingleProduct } from "../services/productApi";
 
 const SingleProduct = () => {
+  const [product, setProduct] = useState(null);
   const [activeTab, setActiveTab] = useState("details");
   const { id } = useParams();
   const navigate = useNavigate();
+  const server_url = import.meta.env.VITE_SERVER_URL;
 
-  // ✅ Correct product fetch
-  const product = productsList.find((p) => p.id === Number(id));
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const { data } = await getSingleProduct(id);
+        setProduct(data.product);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchProduct();
+  }, [id]);
 
   // Product not found safety
   if (!product) {
@@ -44,7 +56,7 @@ const SingleProduct = () => {
         {/* LEFT IMAGE */}
         <div className="flex justify-center">
           <img
-            src={product.img}
+            src={`${server_url}${product.img}`}
             alt={product.productName}
             className="w-full max-w-sm object-contain rounded-lg"
           />
