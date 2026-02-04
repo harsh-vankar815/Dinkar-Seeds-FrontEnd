@@ -51,7 +51,7 @@ const AdminProducts = () => {
 
       {/* PRODUCT GRID */}
       <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products.reverse().map((product) => (
+        {[...products].reverse().map((product) => (
           <article
             key={product._id}
             className="relative bg-white border rounded-xl p-3 space-y-2 hover:shadow-lg transition-all"

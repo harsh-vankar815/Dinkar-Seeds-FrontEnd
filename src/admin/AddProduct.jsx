@@ -40,7 +40,7 @@ const AddProduct = () => {
     setFormData({ ...formData, [name]: value });
     setErrors({ ...errors, [name]: "" });
     if (name === "img") {
-      setPreview(value); 
+      setPreview(value);
     }
   };
 
@@ -260,7 +260,7 @@ const AddProduct = () => {
             <img
               src={
                 preview ||
-                `${formData.img}` ||
+                `${server_url}${formData.img}` ||
                 "https://via.placeholder.com/400x250?text=Product+Image"
               }
               alt="preview"

@@ -29,6 +29,7 @@ const EditProduct = () => {
   const [formData, setFormData] = useState(initialState);
 
   const [preview, setPreview] = useState("");
+  console.log("previw", preview);
   const [errors, setErrors] = useState({});
 
   const fileRef = useRef();
@@ -58,9 +59,9 @@ const EditProduct = () => {
     setFormData({ ...formData, [name]: value });
     setErrors({ ...errors, [name]: "" });
     if (name === "img" && value.trim() !== "") {
-    if (fileRef.current) fileRef.current.value = ""; 
-    setPreview(value); // Live preview update
-  }
+      if (fileRef.current) fileRef.current.value = "";
+      setPreview(value); // Live preview update
+    }
   };
 
   const handleNestedChange = (section, key, value) => {
@@ -123,7 +124,7 @@ const EditProduct = () => {
       if (fileRef.current && fileRef.current.files[0]) {
         formDataObj.append("img", fileRef.current.files[0]);
       } else if (formData.img && formData.img.trim() !== "") {
-        formDataObj.append("img", formData.img)
+        formDataObj.append("img", formData.img);
       }
 
       await updateProduct(id, formDataObj);
@@ -286,7 +287,7 @@ const EditProduct = () => {
           <div className="border rounded-xl overflow-hidden">
             <img
               src={
-                `${formData.img}` ||
+                `${server_url}${formData.img}` ||
                 preview ||
                 "https://via.placeholder.com/400x250?text=Product+Image"
               }
