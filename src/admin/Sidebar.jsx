@@ -54,6 +54,14 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
             <FiBox /> All Products
           </NavLink>
 
+          <NavLink
+            to="/admin/gallery"
+            onClick={() => setIsOpen(false)}
+            className={linkClass}
+          >
+            <FiBox /> Gallery
+          </NavLink>
+
           <button
             onClick={() => {
               setIsOpen(false);

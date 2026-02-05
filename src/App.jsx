@@ -26,6 +26,7 @@ import AdminLayout from "./admin/AdminLayout";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import AuthSuccess from "./components/AuthSuccess";
 import { getProfile } from "./services/userApi";
+import AdminGallery from "./admin/AdminGallery";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -105,6 +106,7 @@ useEffect(() => {
             <Route path="products" element={<AdminProducts />} />
             <Route path="add-product" element={<AddProduct />} />
             <Route path="edit-product/:id" element={<EditProduct />} />
+            <Route path="gallery" element={<AdminGallery/>} />
           </Route>
 
           {/* 404 */}
