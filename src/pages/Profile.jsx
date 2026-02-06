@@ -8,6 +8,7 @@ const Profile = () => {
   const [error, setError] = useState("");
   const [user, setUser] = useState({});
   const [auth, setAuth] = useState(false)
+  const server_url = import.meta.env.VITE_SERVER_URL;
 
   // temporary editing state
   const [editData, setEditData] = useState({});
@@ -117,7 +118,7 @@ const Profile = () => {
         <div className="bg-white rounded-2xl shadow-md p-6 md:p-8 flex flex-col md:flex-row items-center gap-6">
           <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-green-600">
             <img
-              src={editData.image instanceof File ? URL.createObjectURL(editData.image): editData.image}
+              src={editData.image instanceof File ? `${URL.createObjectURL(editData.image)}`: `${server_url}${editData.image}`}
               alt="profile"
               className="w-full h-full object-cover"
             />
