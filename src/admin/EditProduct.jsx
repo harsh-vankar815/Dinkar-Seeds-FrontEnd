@@ -144,6 +144,12 @@ const EditProduct = () => {
     }
   };
 
+  const previewImage = preview
+    ? preview
+    : formData.img
+      ? `${server_url}${formData.img}`
+      : "https://via.placeholder.com/400x250?text=Product+Image";
+
   if (!formData) return <p className="p-6">Loading...</p>;
 
   return (
@@ -286,11 +292,7 @@ const EditProduct = () => {
 
           <div className="border rounded-xl overflow-hidden">
             <img
-              src={
-                `${server_url}${formData.img}` ||
-                preview ||
-                "https://via.placeholder.com/400x250?text=Product+Image"
-              }
+              src={previewImage}
               alt="preview"
               className="h-44 sm:h-48 w-full object-contain"
             />

@@ -1,7 +1,8 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FiHome, FiPlus, FiBox, FiLogOut } from "react-icons/fi";
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
+  const navigate = useNavigate()
   const linkClass = ({ isActive }) =>
     `flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition
      ${
@@ -66,8 +67,12 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
             onClick={() => {
               setIsOpen(false);
               console.log("Logout clicked");
+              localStorage.removeItem("accessToken");
+              localStorage.removeItem("user");
+              navigate("/login");
+              window.location.reload();
             }}
-            className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-red-600 hover:bg-red-50 w-full transition"
+            className="flex md:hidden items-center gap-3 px-4 py-3 rounded-lg text-sm text-red-600 hover:bg-red-50 w-full transition"
           >
             <FiLogOut /> Logout
           </button>

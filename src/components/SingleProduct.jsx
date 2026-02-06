@@ -28,7 +28,7 @@ const SingleProduct = () => {
     return (
       <div className="min-h-[50vh] bg-zinc-100 flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold mb-4">Product Not Found</h2>
+          <h2 className="text-2xl font-bold mb-4">Product is loading...</h2>
           <button
             onClick={() => navigate("/products")}
             className="bg-green-600 text-white px-6 py-2 rounded-lg"

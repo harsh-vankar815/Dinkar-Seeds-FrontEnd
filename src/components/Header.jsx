@@ -8,7 +8,7 @@ const Header = ({ currentUser }) => {
   const navigate = useNavigate();
   const auth = !!currentUser;
 
-  const isAdmin = auth && currentUser?.role === 'admin';
+  const isAdmin = auth && currentUser?.role === "admin";
 
   const navbarArray = [
     { name: "Home", path: "/" },
@@ -19,10 +19,10 @@ const Header = ({ currentUser }) => {
   ];
 
   const handleLogout = () => {
-     localStorage.removeItem("accessToken");
-  localStorage.removeItem("user");
-  navigate("/login");
-  window.location.reload();
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("user");
+    navigate("/login");
+    window.location.reload();
   };
 
   const DropNav = () => (
@@ -72,7 +72,7 @@ const Header = ({ currentUser }) => {
                 >
                   Profile
                 </Link>
-                { isAdmin && (
+                {isAdmin && (
                   <>
                     <span className="text-gray-400">/</span>
                     <Link to={"/admin"}>Dashboard</Link>
@@ -132,10 +132,15 @@ const Header = ({ currentUser }) => {
               <Link to={"/profile"} className="hover:text-green-700 transition">
                 Profile
               </Link>
-              { isAdmin && (
+              {isAdmin && (
                 <>
                   <span className="text-gray-400">/</span>
-                  <Link to={'/admin' } className="hover:text-green-700 transition">Dashboard</Link>
+                  <Link
+                    to={"/admin"}
+                    className="hover:text-green-700 transition"
+                  >
+                    Dashboard
+                  </Link>
                 </>
               )}
               <span className="text-gray-400">/</span>
@@ -156,10 +161,7 @@ const Header = ({ currentUser }) => {
           {isOpen ? (
             <FiX />
           ) : (
-            <FiAlignJustify
-              size={28}
-              className="cursor-pointer md:hidden"
-            />
+            <FiAlignJustify size={28} className="cursor-pointer md:hidden" />
           )}
         </button>
       </nav>

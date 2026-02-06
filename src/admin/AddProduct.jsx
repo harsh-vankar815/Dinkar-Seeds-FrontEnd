@@ -118,6 +118,12 @@ const AddProduct = () => {
     }
   };
 
+    const previewImage = preview
+    ? preview
+    : formData.img
+      ? `${server_url}${formData.img}`
+      : "https://via.placeholder.com/400x250?text=Product+Image";
+
   return (
     <div className="bg-[#f4f7f2] min-h-screen py-6 sm:py-10 px-3 sm:px-6">
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10">
@@ -258,11 +264,7 @@ const AddProduct = () => {
 
           <div className="border rounded-xl overflow-hidden">
             <img
-              src={
-                preview ||
-                `${server_url}${formData.img}` ||
-                "https://via.placeholder.com/400x250?text=Product+Image"
-              }
+              src={previewImage}
               alt="preview"
               className="h-44 sm:h-48 w-full object-contain"
             />
