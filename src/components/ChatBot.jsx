@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { X } from "lucide-react";
-import { getDummyAIResponse } from "../data/dummyAIData";
+import axios from "axios";
+// import { getDummyAIResponse } from "../data/dummyAIData";
 
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +23,7 @@ const ChatBot = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, typing]);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!input.trim()) return;
 
     const userMsg = { sender: "user", text: input };
@@ -30,16 +31,34 @@ const ChatBot = () => {
     setInput("");
     setTyping(true);
 
-    setTimeout(() => {
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/api/chat`,
+        { message: userMsg.text },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
       const aiReply = {
         sender: "bot",
-        text: getDummyAIResponse(
-          userMsg.text || "🤖 Sorry, I am still learning.",
-        ),
-      };
-      setMessages((prev) => [...prev, aiReply]);
+        text: res.data?.success && res.data?.reply ? res.data.reply : "Sorry, mujhe samaj nahi aaya."
+      }
+
+      setMessages((prev) => [...prev, aiReply])
+    } catch (err) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: "bot",
+          text: "Server se connect nahi ho pa raha. Thodi der baad try karein.",
+        },
+      ]);
+    } finally {
       setTyping(false);
-    }, 1200);
+    }
   };
 
   return (
