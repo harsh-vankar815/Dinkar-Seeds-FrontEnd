@@ -14,6 +14,7 @@ const AllProducts = () => {
       try {
         const { data } = await getAllProducts();
         setProducts(data.products);
+        console.log(data.products);
       } catch (err) {
         console.error(err);
       }
@@ -202,7 +203,11 @@ const AllProducts = () => {
             <div className="image">
               <img
                 className="w-full h-32 object-cover rounded-lg"
-                src={`${server_url}${product.img}`}
+                src={
+                  product.img?.startsWith("http")
+                    ? product.img
+                    : `${server_url}${product.img}`
+                }
                 alt={product.productName}
               />
             </div>

@@ -1,10 +1,6 @@
-import { productsList } from '../data/productsData'
-
 const AdminDashboard = () => {
-  const totalProducts = productsList.length;
-  console.log(totalProducts) 
   const cards = [
-    { title: "Total Products", value: totalProducts },
+    { title: "Total Products", value: "23" },
     { title: "Categories", value: "6" },
     { title: "Active Products", value: "20" },
     { title: "Out of Stock", value: "4" },

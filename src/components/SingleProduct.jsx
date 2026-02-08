@@ -56,7 +56,11 @@ const SingleProduct = () => {
         {/* LEFT IMAGE */}
         <div className="flex justify-center">
           <img
-            src={`${server_url}${product.img}`}
+            src={
+              product.img?.startsWith("http")
+                ? product.img
+                : `${server_url}${product.img}`
+            }
             alt={product.productName}
             className="w-full max-w-sm object-contain rounded-lg"
           />
