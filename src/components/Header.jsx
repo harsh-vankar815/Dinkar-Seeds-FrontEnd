@@ -7,7 +7,6 @@ const Header = ({ currentUser }) => {
 
   const navigate = useNavigate();
   const auth = !!currentUser;
-
   const isAdmin = auth && currentUser?.role === "admin";
 
   const navbarArray = [
@@ -40,9 +39,8 @@ const Header = ({ currentUser }) => {
           </li>
         ))}
 
-        {/* Auth Section */}
         <li className="py-4">
-          <div className="flex items-center justify-center gap-3 text-sm font-medium">
+          <div className="flex items-center justify-center gap-3 text-lg font-medium">
             {!auth ? (
               <>
                 <Link
@@ -52,9 +50,7 @@ const Header = ({ currentUser }) => {
                 >
                   Login
                 </Link>
-
                 <span className="text-gray-400">/</span>
-
                 <Link
                   to="/signup"
                   onClick={() => setIsOpen(false)}
@@ -66,7 +62,7 @@ const Header = ({ currentUser }) => {
             ) : (
               <>
                 <Link
-                  to={"/profile"}
+                  to="/profile"
                   onClick={() => setIsOpen(false)}
                   className="hover:text-green-700 transition"
                 >
@@ -75,7 +71,9 @@ const Header = ({ currentUser }) => {
                 {isAdmin && (
                   <>
                     <span className="text-gray-400">/</span>
-                    <Link to={"/admin"}>Dashboard</Link>
+                    <Link to="/admin" onClick={() => setIsOpen(false)}>
+                      Admin
+                    </Link>
                   </>
                 )}
                 <span className="text-gray-400">/</span>
@@ -90,78 +88,84 @@ const Header = ({ currentUser }) => {
 
   return (
     <header className="sticky top-0 z-50 bg-white">
-      <nav className="max-w-full mx-auto h-20  flex items-center justify-around border shadow-[0_4px_6px_rgba(0,0,0,0.1)] ">
-        <Link to={"/"}>
+      <nav className="max-w-full mx-auto h-20 flex items-center justify-between md:justify-around border shadow-[0_4px_6px_rgba(0,0,0,0.1)] px-4 md:px-2 min-[768px]:max-[886px]:px-1 min-[768px]:max-[886px]:gap-1">
+        {/* Logo Section */}
+        <Link to={"/"} className="flex-shrink-0">
           <div className="flex items-center gap-2 cursor-pointer">
             <img
               src="favicon.ico"
-              width={"60"}
-              height={"60"}
               alt="Dinkar Seeds"
-              className="object-cover w-16 h-auto"
+              className="object-cover w-12 md:w-16 h-auto"
             />
-            <h1 className="text-xl font-bold text-green-700 ">Dinkar Seeds</h1>
+            <h1 className="text-lg md:text-xl font-bold text-green-700 whitespace-nowrap min-[768px]:max-[886px]:text-base">
+              Dinkar Seeds
+            </h1>
           </div>
         </Link>
 
-        <ul className=" hidden md:flex space-x-7">
+        {/* Desktop Navigation */}
+        <ul className="hidden md:flex md:gap-3 lg:gap-8 items-center min-[768px]:max-[886px]:gap-2">
           {navbarArray.map((item) => (
             <li
               key={item.name}
-              className="py-4 hover:underline hover:text-green-700 "
+              className="py-4 hover:underline hover:text-green-700 md:text-base lg:text-lg whitespace-nowrap min-[768px]:max-[886px]:text-sm"
             >
               <Link to={`${item.path}`}>{item.name}</Link>
             </li>
           ))}
         </ul>
-        <div className="buttons hidden sm:flex text-sm md:text-lg space-x-3">
+
+        {/* Auth Section */}
+        <div className="buttons hidden sm:flex items-center sm:text-base md:text-base lg:text-lg sm:gap-2 md:gap-3 flex-shrink-0 font-medium min-[768px]:max-[886px]:text-[14px] min-[768px]:max-[886px]:gap-1">
           {!auth ? (
             <>
-              <Link to="/login" className="hover:text-green-700 transition">
+              <Link
+                to="/login"
+                className="hover:text-green-700 text-xl lg:text-lg font-normal transition whitespace-nowrap"
+              >
                 Login
               </Link>
-
               <span className="text-gray-400">/</span>
-
-              <Link to="/signup" className="hover:text-green-700 transition">
+              <Link
+                to="/signup"
+                className="hover:text-green-700 text-xl lg:text-lg font-normal transition whitespace-nowrap"
+              >
                 Register
               </Link>
             </>
           ) : (
-            <>
-              <Link to={"/profile"} className="hover:text-green-700 transition">
+            <div className="flex items-center space-x-3 min-[768px]:max-[886px]:space-x-1">
+              <Link to="/profile" className="hover:text-green-700 transition">
                 Profile
               </Link>
               {isAdmin && (
                 <>
                   <span className="text-gray-400">/</span>
-                  <Link
-                    to={"/admin"}
-                    className="hover:text-green-700 transition"
-                  >
-                    Dashboard
+                  <Link to="/admin" className="text-blue-600">
+                    Admin
                   </Link>
                 </>
               )}
               <span className="text-gray-400">/</span>
               <button
                 onClick={handleLogout}
-                className="text-black hover:text-green-700"
+                className="text-red-600 hover:underline"
               >
                 Logout
               </button>
-            </>
+            </div>
           )}
         </div>
 
+        {/* Mobile Hamburger */}
         <button
-          className="md:hidden text-2xl"
+          className="md:hidden text-2xl p-2"
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? (
             <FiX />
           ) : (
-            <FiAlignJustify size={28} className="cursor-pointer md:hidden" />
+            <FiAlignJustify size={28} className="cursor-pointer" />
           )}
         </button>
       </nav>
