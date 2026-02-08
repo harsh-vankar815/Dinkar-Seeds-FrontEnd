@@ -7,7 +7,7 @@ const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState("");
   const [user, setUser] = useState({});
-  const [auth, setAuth] = useState(false)
+  const [auth, setAuth] = useState(false);
   const server_url = import.meta.env.VITE_SERVER_URL;
 
   // temporary editing state
@@ -23,8 +23,8 @@ const Profile = () => {
         setEditData(res.data.user);
       } catch (err) {
         if (err.response?.status === 401) {
-    navigate("/login");
-  }
+          navigate("/login");
+        }
       }
     };
 
@@ -33,7 +33,7 @@ const Profile = () => {
 
   useEffect(() => {
     setAuth(isAuthenticated());
-  }, [location])
+  }, [location]);
 
   const handleChange = (e) => {
     setEditData({ ...editData, [e.target.name]: e.target.value });
@@ -55,16 +55,16 @@ const Profile = () => {
     }
     try {
       let uploadedImage = null;
-      console.log("uploaded image null", uploadedImage)
+      console.log("uploaded image null", uploadedImage);
       if (editData.image instanceof File) {
         uploadedImage = editData.image;
-        console.log("uploaded image ifelse", uploadedImage)
+        console.log("uploaded image ifelse", uploadedImage);
       }
       const res = await updateProfile({
         firstName: editData.firstName,
         lastName: editData.lastName,
         bio: editData.bio,
-        image: uploadedImage
+        image: uploadedImage,
       });
 
       setUser(res.data.user);
@@ -118,7 +118,13 @@ const Profile = () => {
         <div className="bg-white rounded-2xl shadow-md p-6 md:p-8 flex flex-col md:flex-row items-center gap-6">
           <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-green-600">
             <img
-              src={editData.image instanceof File ? `${URL.createObjectURL(editData.image)}`: `${server_url}${editData.image}`}
+              src={
+                editData.image instanceof File
+                  ? URL.createObjectURL(editData.image)
+                  : editData.image?.startsWith("http")
+                    ? editData.image
+                    : `${server_url}/${editData.image}`
+              }
               alt="profile"
               className="w-full h-full object-cover"
             />
