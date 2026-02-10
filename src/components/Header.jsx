@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FiAlignJustify, FiX } from "react-icons/fi";
+import toast from "react-hot-toast";
 
 const Header = ({ currentUser }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,10 +19,14 @@ const Header = ({ currentUser }) => {
   ];
 
   const handleLogout = () => {
+    toast.success("Logged out successfully 👋");
+
     localStorage.removeItem("accessToken");
     localStorage.removeItem("user");
-    navigate("/login");
-    window.location.reload();
+
+    setTimeout(() => {
+      navigate("/login");
+    }, 500);
   };
 
   const DropNav = () => (

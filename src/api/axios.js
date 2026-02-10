@@ -1,7 +1,8 @@
 import axios from "axios";
+const server_url = import.meta.env.VITE_SERVER_URL;
 
 const API = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: `${server_url}/api`,
   withCredentials: true, // refreshToken cookie ke liye
 });
 
@@ -53,7 +54,7 @@ API.interceptors.response.use(
 
       try {
         const res = await axios.post(
-          "http://localhost:5000/api/auth/refresh-token",
+          `${server_url}/api/auth/refresh-token`,
           {},
           { withCredentials: true }
         );

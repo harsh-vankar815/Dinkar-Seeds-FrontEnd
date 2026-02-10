@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getSingleProduct, updateProduct } from "../services/productApi";
+import toast from "react-hot-toast";
 
 const EditProduct = () => {
   const server_url = import.meta.env.VITE_SERVER_URL;
@@ -29,7 +30,6 @@ const EditProduct = () => {
   const [formData, setFormData] = useState(initialState);
 
   const [preview, setPreview] = useState("");
-  console.log("previw", preview);
   const [errors, setErrors] = useState({});
 
   const fileRef = useRef();
@@ -88,7 +88,6 @@ const EditProduct = () => {
     if (!formData.productName?.toString().trim())
       newErrors.productName = "Product name is required";
 
-    // Convert to string first to avoid ".trim is not a function"
     if (!formData.price?.toString().trim())
       newErrors.price = "Price is required";
 
@@ -113,7 +112,7 @@ const EditProduct = () => {
       formDataObj.append("price", Number(formData.price));
       formDataObj.append("discount", Number(formData.discount));
 
-      // nested objects → stringify (VERY IMPORTANT)
+      // nested objects → stringify
       formDataObj.append("details", JSON.stringify(formData.details));
       formDataObj.append(
         "specifications",
@@ -129,18 +128,14 @@ const EditProduct = () => {
 
       await updateProduct(id, formDataObj);
 
-      console.log("UPDATED PRODUCT:", {
-        formDataObj,
-      });
-
       setPreview("");
       setErrors({});
       if (fileRef.current) fileRef.current.value = "";
+      toast.success("Product updated successfully ✏️");
       navigate("/admin/products");
-      alert("Product updated successfully");
     } catch (err) {
       console.error("Update Error:", err);
-      alert("Update failed. Please try again.");
+      toast.error("Update failed. Please try again.");
     }
   };
 

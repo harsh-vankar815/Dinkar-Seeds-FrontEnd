@@ -3,6 +3,7 @@ import { GoSignIn } from "react-icons/go";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../../services/userApi";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -14,6 +15,8 @@ const Register = () => {
   const [showPasswordCon, setShowPasswordCon] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const server_url = import.meta.env.VITE_SERVER_URL;
 
   const navigate = useNavigate();
 
@@ -35,10 +38,10 @@ const Register = () => {
           password,
           confirmPassword: passwordCon,
         });
-        alert("Signup User Successfull")
+        toast.success("Account created successfully 🎉");
         navigate("/login");
       } catch (err) {
-        setError(err.response?.data?.message || "Registration failed");
+        toast.error(err.response?.data?.message || "Registration failed");
       } finally {
         setLoading(false);
       }
@@ -46,7 +49,7 @@ const Register = () => {
   };
 
   const googleRegister = () => {
-    window.location.href = "http://localhost:5000/api/auth/google";
+    window.location.href = `${server_url}/api/auth/google`;
   };
 
   const isPassSame = passwordCon === password;

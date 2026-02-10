@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Trash2, Upload } from "lucide-react";
-import API from "../api/axios";
 import {
   deleteGalleryImage,
   getGalleryImages,
   uploadGalleryImage,
 } from "../services/galleryApi";
+import toast from "react-hot-toast";
 
 const AdminGallery = () => {
   const [images, setImages] = useState([]);
@@ -16,7 +16,6 @@ const AdminGallery = () => {
   const fetchGallery = async () => {
     try {
       const { data } = await getGalleryImages();
-      console.log(data.images);
       setImages(data.images);
     } catch (err) {
       console.error(err);
@@ -30,7 +29,7 @@ const AdminGallery = () => {
 
   const handleUpload = async (e) => {
     e.preventDefault();
-    if (!file) return alert("Please select an image");
+    if (!file) return toast.error("Please select an image");
     try {
       setLoading(true);
       const formData = new FormData();
@@ -40,23 +39,51 @@ const AdminGallery = () => {
 
       setFile(null);
       fetchGallery();
-      alert("image uploaded successfully");
+      toast.success("Image uploaded successfully 🖼️");
     } catch (err) {
       console.error(err);
-      alert("image upload filed");
+      toast.error("image upload filed");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleDelete = async (id) => {
-    const confirm = window.confirm("delete this image?");
-    if (!confirm) return;
+  const handleDelete = (id) => {
+    toast(
+      (t) => (
+        <span>
+          Delete this image?
+          <div className="mt-2 flex gap-2">
+            <button
+              onClick={async () => {
+                try {
+                  await deleteGalleryImage(id);
+                  await fetchGallery();
 
-    await deleteGalleryImage(id);
-    fetchGallery();
+                  toast.dismiss(t.id);
+
+                  toast.success("Image deleted successfully!");
+                } catch (err) {
+                  console.error(err);
+                  toast.error("Failed to delete image.");
+                }
+              }}
+              className="px-3 py-1 bg-red-600 text-white rounded"
+            >
+              Yes
+            </button>
+            <button
+              onClick={() => toast.dismiss(t.id)}
+              className="px-3 py-1 bg-gray-300 rounded"
+            >
+              No
+            </button>
+          </div>
+        </span>
+      ),
+      { id: "delete-confirm" },
+    ); // Unique ID dene se duplicate toast nahi banenge
   };
-
   return (
     <section className="min-h-screen bg-zinc-100 p-6">
       <h1 className="text-3xl font-bold text-green-700 mb-6">

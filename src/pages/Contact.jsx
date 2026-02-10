@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 const Contact = () => {
   const [fullName, setFullName] = useState("");
@@ -15,7 +16,7 @@ const Contact = () => {
       console.log(
         `Full Name: ${fullName} \nMobile No: ${mobileNo}\nEmail ID: ${emailId}\nMessage: ${message}`
       );
-      alert("Thank you for responding we will contact back you soon!");
+      toast.success("Thanks! We’ll contact you soon 📞");
       setFullName("");
       setMobileNo("");
       setEmailId("");

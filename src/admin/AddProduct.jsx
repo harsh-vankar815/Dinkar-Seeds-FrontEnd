@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { createProduct } from "../services/productApi";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const AddProduct = () => {
   const server_url = import.meta.env.VITE_SERVER_URL;
@@ -104,17 +105,15 @@ const AddProduct = () => {
 
       await createProduct(formDataObj);
 
-      console.log("product data:", formDataObj);
-
       setFormData(initialState);
       setPreview("");
       setErrors({});
       if (fileRef.current) fileRef.current.value = "";
-      alert("Product Added successfully");
+      toast.success("Product added successfully 🌱");
       navigate("/admin/products");
     } catch (err) {
       console.error("Submission failed:", err);
-      alert("Failed to add product");
+      toast.error("Failed to add product");
     }
   };
 

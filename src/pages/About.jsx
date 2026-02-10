@@ -1,4 +1,3 @@
-// src/pages/About.jsx
 import { FaSeedling, FaTractor, FaUsers, FaAward } from "react-icons/fa";
 import companyImage from "/img/DinkarCompany.webp";
 

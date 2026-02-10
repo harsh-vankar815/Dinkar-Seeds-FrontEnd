@@ -2,6 +2,7 @@ import { IndianRupee, Pencil, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { getAllProducts, deleteProduct } from "../services/productApi";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const AdminProducts = () => {
   const server_url = import.meta.env.VITE_SERVER_URL;
@@ -17,19 +18,37 @@ const AdminProducts = () => {
     fetchProducts();
   }, []);
 
-  const handleDelete = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this product?",
-    );
-    if (!confirmDelete) return;
-    try {
-      await deleteProduct(id);
-      setProducts(products.filter((p) => p._id !== id));
-      console.log("Delete Product ID:", id);
-    } catch (err) {
-      alert("delete failed");
-    }
-    // 👉 later API call / Redux dispatch here
+  const handleDelete = (id) => {
+    toast((t) => (
+      <span>
+        Delete this product?
+        <div className="mt-2 flex gap-2">
+          <button
+            onClick={async () => {
+              toast.dismiss(t.id);
+
+              try {
+                await deleteProduct(id);
+                setProducts((prev) => prev.filter((p) => p._id !== id));
+                toast.success("Product deleted successfully!");
+              } catch (err) {
+                console.error(err);
+                toast.error("Failed to delete product.");
+              }
+            }}
+            className="px-3 py-1 bg-red-600 text-white rounded"
+          >
+            Yes
+          </button>
+          <button
+            onClick={() => toast.dismiss(t.id)}
+            className="px-3 py-1 bg-gray-300 rounded"
+          >
+            No
+          </button>
+        </div>
+      </span>
+    ));
   };
 
   if (products.length === 0) return <p>No products avaliable to show</p>;

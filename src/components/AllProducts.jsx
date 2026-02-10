@@ -14,7 +14,6 @@ const AllProducts = () => {
       try {
         const { data } = await getAllProducts();
         setProducts(data.products);
-        console.log(data.products);
       } catch (err) {
         console.error(err);
       }
@@ -30,64 +29,6 @@ const AllProducts = () => {
           prod.category?.toLowerCase() === selectedCategory.toLowerCase(),
       )
     : products;
-
-  // Product data me category add karo
-  //   {
-  //   productName: "Tomato Seeds",
-  //   category: "Vegetables",
-  // }
-  // const productsList = [
-  //   {
-  //     productName: "Maize Seeds",
-  //     price: "200",
-  //     discount: "142",
-  //     img: "/img/organicsoil.png",
-  //   },
-  //   {
-  //     productName: "Soybean Seeds",
-  //     img: "/img/humitek.png",
-  //     price: "340",
-  //     discount: "230",
-  //   },
-  //   {
-  //     productName: "Cotton Seeds",
-  //     img: "/img/vegitableseeds.png",
-  //     price: "400",
-  //     discount: "370",
-  //   },
-  //   {
-  //     productName: "Groundnut Seeds",
-  //     img: "/img/soilbooster.png",
-  //     price: "158",
-  //     discount: "110",
-  //   },
-  //   {
-  //     productName: "Wheat Seeds",
-  //     img: "/img/organicsoil.png",
-  //     category: "Wheat",
-  //     price: "824",
-  //     discount: "567",
-  //   },
-  //   {
-  //     productName: "Rice Seeds",
-  //     img: "/img/humitek.png",
-  //     category: "Rice",
-  //     price: "550",
-  //     discount: "330",
-  //   },
-  //   {
-  //     productName: "Mustard Seeds",
-  //     img: "/img/vegitableseeds.png",
-  //     price: "80",
-  //     discount: "60",
-  //   },
-  //   {
-  //     productName: "Sunflower Seeds",
-  //     img: "/img/soilbooster.png",
-  //     price: "170",
-  //     discount: "150",
-  //   },
-  // ];
 
   const categories = [
     {

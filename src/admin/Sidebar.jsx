@@ -66,7 +66,6 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           <button
             onClick={() => {
               setIsOpen(false);
-              console.log("Logout clicked");
               localStorage.removeItem("accessToken");
               localStorage.removeItem("user");
               navigate("/login");

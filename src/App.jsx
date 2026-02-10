@@ -25,8 +25,8 @@ import AdminDashboard from "./admin/AdminDashboard";
 import AdminLayout from "./admin/AdminLayout";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import AuthSuccess from "./components/AuthSuccess";
-import { getProfile } from "./services/userApi";
 import AdminGallery from "./admin/AdminGallery";
+import { Toaster } from "react-hot-toast";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -42,26 +42,25 @@ function AppContent() {
   const location = useLocation();
   const [user, setUser] = useState(null);
 
-useEffect(() => {
-  const token = localStorage.getItem("accessToken");
-  const storedUser = localStorage.getItem("user");
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    const storedUser = localStorage.getItem("user");
 
-  if (!token || !storedUser || storedUser === "undefined") {
-    setUser(null);
-    return;
-  }
+    if (!token || !storedUser || storedUser === "undefined") {
+      setUser(null);
+      return;
+    }
 
-  try {
-    const parsedUser = JSON.parse(storedUser);
-    setUser(parsedUser);
-  } catch (err) {
-    console.error("Invalid user JSON in localStorage", err);
-    localStorage.removeItem("user");
-    localStorage.removeItem("accessToken");
-    setUser(null);
-  }
-}, [location.pathname]);
-
+    try {
+      const parsedUser = JSON.parse(storedUser);
+      setUser(parsedUser);
+    } catch (err) {
+      console.error("Invalid user JSON in localStorage", err);
+      localStorage.removeItem("user");
+      localStorage.removeItem("accessToken");
+      setUser(null);
+    }
+  }, [location.pathname]);
 
   // ✅ Detect admin routes
   const isAdminRoute = location.pathname.startsWith("/admin");
@@ -81,7 +80,7 @@ useEffect(() => {
           <Route path="/product/:id" element={<SingleProduct />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Register />} />
-           <Route path="/auth/success" element={<AuthSuccess />} />
+          <Route path="/auth/success" element={<AuthSuccess />} />
           <Route path="/gallery" element={<Gallery />} />
           {/* ab bina login ke profile open nahi hogi */}
           <Route
@@ -106,7 +105,7 @@ useEffect(() => {
             <Route path="products" element={<AdminProducts />} />
             <Route path="add-product" element={<AddProduct />} />
             <Route path="edit-product/:id" element={<EditProduct />} />
-            <Route path="gallery" element={<AdminGallery/>} />
+            <Route path="gallery" element={<AdminGallery />} />
           </Route>
 
           {/* 404 */}
@@ -126,6 +125,12 @@ useEffect(() => {
 function App() {
   return (
     <Router>
+      <Toaster position="top-center" toastOptions={{
+        duration: 3000,
+        style: {
+          fontSize: "14px"
+        }
+      }}/>
       <ScrollToTop />
       <AppContent />
     </Router>

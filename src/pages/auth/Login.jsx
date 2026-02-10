@@ -3,6 +3,7 @@ import { GoSignIn } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import { loginUser } from "../../services/userApi";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -10,6 +11,8 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const server_url = import.meta.env.VITE_SERVER_URL;
 
   const navigate = useNavigate();
 
@@ -27,14 +30,15 @@ const Login = () => {
         localStorage.setItem("accessToken", res.data.accessToken);
         localStorage.setItem("user", JSON.stringify(res.data.user));
 
-        alert("Login User Successfull");
         if (res.data.user.role === "admin") {
+          toast.success("Welcome Admin 🎉");
           navigate("/admin");
         } else {
+          toast.success("Login successful 🎉")
           navigate("/profile");
         }
       } catch (err) {
-        setError(err.response?.data?.message || "Login failed");
+        toast.error(err.response?.data?.message || "Login failed");
       } finally {
         setLoading(false);
       }
@@ -42,7 +46,7 @@ const Login = () => {
   };
 
   const googleLogin = () => {
-    window.location.href = "http://localhost:5000/api/auth/google";
+    window.location.href = `${server_url}/api/auth/google`;
   };
 
   return (

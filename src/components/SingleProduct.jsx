@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { getSingleProduct } from "../services/productApi";
+import toast from "react-hot-toast";
 
 const SingleProduct = () => {
   const [product, setProduct] = useState(null);
@@ -148,7 +149,7 @@ const SingleProduct = () => {
           <div className="flex gap-4 mb-6">
             <button
               //   onClick={() => navigate("/checkout")}
-              onClick={() => alert(`Buying ${product.productName}`)}
+              onClick={() => toast.success(`Buying ${product.productName} 🛒`)}
               className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 mt-5 rounded-lg font-semibold transition"
             >
               Buy Now

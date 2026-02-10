@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getProfile, logoutUser, updateProfile } from "../services/userApi";
 import { useLocation, useNavigate } from "react-router-dom";
 import { isAuthenticated } from "../utils/auth";
+import toast from "react-hot-toast";
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -55,10 +56,8 @@ const Profile = () => {
     }
     try {
       let uploadedImage = null;
-      console.log("uploaded image null", uploadedImage);
       if (editData.image instanceof File) {
         uploadedImage = editData.image;
-        console.log("uploaded image ifelse", uploadedImage);
       }
       const res = await updateProfile({
         firstName: editData.firstName,
@@ -78,10 +77,14 @@ const Profile = () => {
 
   const handleLogOut = async () => {
     await logoutUser();
+    toast.success("Logged out successfully 👋");
+
     localStorage.removeItem("accessToken");
     localStorage.removeItem("user");
-    localStorage.clear();
-    navigate("/login");
+
+    setTimeout(() => {
+      navigate("/login");
+    }, 500);
   };
 
   const handleCancel = () => {
@@ -123,7 +126,7 @@ const Profile = () => {
                   ? URL.createObjectURL(editData.image)
                   : editData.image?.startsWith("http")
                     ? editData.image
-                    : `${server_url}/${editData.image}`
+                    : `${server_url}${editData.image}`
               }
               alt="profile"
               className="w-full h-full object-cover"

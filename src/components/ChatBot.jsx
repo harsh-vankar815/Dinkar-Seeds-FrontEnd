@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { X } from "lucide-react";
 import axios from "axios";
-// import { getDummyAIResponse } from "../data/dummyAIData";
 
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
