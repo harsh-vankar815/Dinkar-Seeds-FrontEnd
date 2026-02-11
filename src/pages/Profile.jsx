@@ -7,12 +7,19 @@ import toast from "react-hot-toast";
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState("");
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem("user");
+    return savedUser ? JSON.parse(savedUser) : {};
+  });
   const [auth, setAuth] = useState(false);
+  const [loading, setLoading] = useState(true); 
   const server_url = import.meta.env.VITE_SERVER_URL;
 
   // temporary editing state
-  const [editData, setEditData] = useState({});
+  const [editData, setEditData] = useState(() => {
+    const savedUser = localStorage.getItem("user");
+    return savedUser ? JSON.parse(savedUser) : {};
+  });
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -26,6 +33,8 @@ const Profile = () => {
         if (err.response?.status === 401) {
           navigate("/login");
         }
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -113,6 +122,8 @@ const Profile = () => {
       img: "https://images.pexels.com/photos/1414651/pexels-photo-1414651.jpeg?auto=compress&cs=tinysrgb&w=400",
     },
   ];
+
+  if (loading) return <div className="text-center mt-20">Loading Profile...</div>
 
   return (
     <section className="min-h-screen bg-zinc-100 px-4 py-8">
