@@ -1,5 +1,5 @@
 import axios from "axios";
-const server_url = import.meta.env.VITE_SERVER_URL || "https://dinkar-seeds-backend.onrender.com";
+const server_url = import.meta.env.VITE_SERVER_URL || "https://dinkar-seeds-back-end.vercel.app";
 
 const API = axios.create({
   baseURL: `${server_url}/api`,
