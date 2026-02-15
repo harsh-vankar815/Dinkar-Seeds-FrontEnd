@@ -118,7 +118,7 @@ const AdminGallery = () => {
           {[...images].reverse().map((img) => (
             <div key={img._id} className="relative bg-white rounded-lg shadow">
               <img
-                src={`${server_url}${img.src}`}
+                src={`${img.src}`}
                 alt={img.alt}
                 className="w-full h-40 object-cover rounded-lg"
               />
