@@ -108,7 +108,7 @@ const Gallery = () => {
 
           {/* Image */}
           <img
-            src={`${server_url}${activeImage.src}`}
+            src={`${activeImage.src}`}
             alt={activeImage.alt}
             className="max-h-[85vh] max-w-[90vw] object-contain rounded-lg transition"
           />
