@@ -78,7 +78,7 @@ const Gallery = () => {
           >
             <img
               onClick={() => openLightbox(image._id)}
-              src={`${server_url}${image.src}`}
+              src={`${image.src}`}
               alt={image.alt}
               className="w-full h-40 sm:h-48 lg:h-56 object-cover hover:scale-105 transition duration-300"
             />
