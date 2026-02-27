@@ -5,7 +5,14 @@ const Gallery = () => {
   const [galleryImages, setGalleryImages] = useState([])
   const [isLightBoxOpen, setIsLightBoxOpen] = useState(false);
   const [activeImageId, setActiveImageId] = useState(null);
-  const server_url = import.meta.env.VITE_SERVER_URL;
+  const server_url = import.meta.env.VITE_SERVER_URL || "http://localhost:5000";
+
+  // Helper: relative paths (local dev) get server_url prefix; full URLs (Cloudinary) used as-is
+  const getImageUrl = (src) => {
+    if (!src) return "";
+    if (src.startsWith("http")) return src;
+    return `${server_url}${src}`;
+  };
 
   const fetchGallery = async () => {
     try {
@@ -78,7 +85,7 @@ const Gallery = () => {
           >
             <img
               onClick={() => openLightbox(image._id)}
-              src={`${image.src}`}
+              src={getImageUrl(image.src)}
               alt={image.alt}
               className="w-full h-40 sm:h-48 lg:h-56 object-cover hover:scale-105 transition duration-300"
             />
@@ -108,7 +115,7 @@ const Gallery = () => {
 
           {/* Image */}
           <img
-            src={`${activeImage.src}`}
+            src={getImageUrl(activeImage.src)}
             alt={activeImage.alt}
             className="max-h-[85vh] max-w-[90vw] object-contain rounded-lg transition"
           />

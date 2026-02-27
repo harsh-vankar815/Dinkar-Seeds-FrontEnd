@@ -11,7 +11,14 @@ const AdminGallery = () => {
   const [images, setImages] = useState([]);
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
-  const server_url = import.meta.env.VITE_SERVER_URL;
+  const server_url = import.meta.env.VITE_SERVER_URL || "http://localhost:5000";
+
+  // Helper: relative paths (local dev) get server_url prefix; full URLs (Cloudinary) used as-is
+  const getImageUrl = (src) => {
+    if (!src) return "";
+    if (src.startsWith("http")) return src;
+    return `${server_url}${src}`;
+  };
 
   const fetchGallery = async () => {
     try {
@@ -118,7 +125,7 @@ const AdminGallery = () => {
           {[...images].reverse().map((img) => (
             <div key={img._id} className="relative bg-white rounded-lg shadow">
               <img
-                src={`${img.src}`}
+                src={getImageUrl(img.src)}
                 alt={img.alt}
                 className="w-full h-40 object-cover rounded-lg"
               />
