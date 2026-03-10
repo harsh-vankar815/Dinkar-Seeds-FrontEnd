@@ -64,7 +64,7 @@ const Footer = () => {
         <div className="flex items-center justify-center text-sm text-secondary-500 dark:text-secondary-500">
           <span>Made with</span>
           <HiHeart className="w-4 h-4 text-red-500 mx-1" />
-          <span>by HARSH VANKAR</span>
+          <span>by HARSH VANKAR <b>&</b> ROSHAN THAKOR</span>
         </div>
       </div>
     </footer>
