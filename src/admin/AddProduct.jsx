@@ -34,8 +34,6 @@ const AddProduct = () => {
 
   const fileRef = useRef();
 
-  // Fetching Product from DB or json
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
